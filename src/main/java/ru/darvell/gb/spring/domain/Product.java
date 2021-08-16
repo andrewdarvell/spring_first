@@ -1,9 +1,6 @@
 package ru.darvell.gb.spring.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -15,5 +12,4 @@ public class Product {
     private long id;
     private String title;
     private BigDecimal cost;
-
 }

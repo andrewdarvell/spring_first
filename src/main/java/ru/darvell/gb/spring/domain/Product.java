@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Entity(name = "product")
+@Entity
+@Table(name = "product")
 public class Product {
 
     @Id

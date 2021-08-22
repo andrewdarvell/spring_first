@@ -20,7 +20,7 @@ public class ProductDAOImpl implements ProductDAO {
     public List<Product> getAll() {
         try (Session session = factoryManager.getSession()) {
             session.beginTransaction();
-            List<Product> products = session.createQuery("from product").getResultList();
+            List<Product> products = session.createQuery("from Product").getResultList();
             session.getTransaction().commit();
             return products;
         }

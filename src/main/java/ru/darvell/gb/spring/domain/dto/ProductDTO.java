@@ -1,7 +1,7 @@
-package ru.darvell.gb.spring.domain;
+package ru.darvell.gb.spring.domain.dto;
 
 import lombok.*;
-import ru.darvell.gb.spring.domain.dto.ProductDTO;
+import ru.darvell.gb.spring.domain.Product;
 
 import java.math.BigDecimal;
 
@@ -10,12 +10,12 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Product {
+public class ProductDTO {
     private long id;
     private String title;
     private BigDecimal cost;
 
-    public Product(ProductDTO that) {
+    public ProductDTO(Product that) {
         id = that.getId();
         title = that.getTitle();
         cost = that.getCost();

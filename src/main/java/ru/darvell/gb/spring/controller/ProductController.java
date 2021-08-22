@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
 import ru.darvell.gb.spring.service.ProductService;
@@ -29,11 +26,18 @@ public class ProductController {
         return "products";
     }
 
+
+    @GetMapping(value = "/{id}")
+    public String getProduct(@PathVariable(name = "id") long id, Model model) {
+        model.addAttribute("product", new ProductDTO(productService.findById(id).orElse(new Product())));
+        return "one_product";
+    }
+
     @PostMapping
     public String addProduct(@ModelAttribute ProductDTO productDTO, Model model) {
         log.info("new product : {}", productDTO);
         if (!productDTO.getTitle().isBlank() && productDTO.getCost() != null) {
-            productService.addProduct(new Product(productDTO));
+            productService.saveOrUpdate(new Product(productDTO));
         }
         return "redirect:/product";
     }

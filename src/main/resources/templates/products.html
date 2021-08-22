@@ -2,10 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Продукт</title>
+    <title>Продукты</title>
 </head>
 <body>
 
+<h3>Добавить продукт</h3>
 <form action="#" th:action="@{/product}" th:object="${product}" method="post">
     <p>Наименование продукта: <input type="text" th:field="*{title}"/></p>
     <p>Стоимость: <input type="text" th:field="*{cost}"/></p>
@@ -14,7 +15,7 @@
 
 <br>
 
-<h1>Продукты</h1>
+<h3>Все продукты</h3>
 <table>
     <thead>
     <tr>
@@ -26,7 +27,9 @@
     <tbody>
     <tr th:each="p : ${products}">
         <td th:text="${p.id}"/>
-        <td th:text="${p.title}"/>
+        <td>
+            <a th:href="@{|product/${p.id}|}"><span th:text="${p.title}"></span></a>
+        </td>
         <td th:text="${p.cost}"/>
     </tr>
     </tbody>

@@ -3,7 +3,7 @@ package ru.darvell.gb.spring.service.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.darvell.gb.spring.domain.Product;
-import ru.darvell.gb.spring.dao.ProductDAO;
+import ru.darvell.gb.spring.repository.ProductRepository;
 import ru.darvell.gb.spring.service.ProductService;
 
 import java.util.List;
@@ -13,20 +13,20 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductDAO productDAO;
+    private final ProductRepository productRepository;
 
     @Override
     public List<Product> getAll() {
-        return productDAO.getAll();
+        return productRepository.findAll();
     }
 
     @Override
     public Optional<Product> findById(long id) {
-        return productDAO.findById(id);
+        return productRepository.findById(id);
     }
 
     @Override
     public void saveOrUpdate(Product product) {
-        productDAO.saveOrUpdate(product);
+        productRepository.saveAndFlush(product);
     }
 }

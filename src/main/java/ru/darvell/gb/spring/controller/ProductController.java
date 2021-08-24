@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public String addProduct(@ModelAttribute ProductDTO productDTO, Model model) {
+    public String addProduct(@ModelAttribute ProductDTO productDTO) {
         log.info("new product : {}", productDTO);
         if (!productDTO.getTitle().isBlank() && productDTO.getCost() != null) {
             productService.saveOrUpdate(new Product(productDTO));

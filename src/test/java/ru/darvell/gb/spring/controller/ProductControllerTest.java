@@ -34,7 +34,11 @@ class ProductControllerTest extends MVCTestConfig {
 
     @BeforeEach
     public void setUp() {
-        expectedProduct = new Product(1L, "test", new BigDecimal("10.0"));
+        expectedProduct = Product.builder()
+                .id(1L)
+                .title("test")
+                .cost(new BigDecimal("10.0"))
+                .build();
         when(productService.getAll()).thenReturn(Collections.singletonList(expectedProduct));
         when(productService.findById(1L)).thenReturn(Optional.of(expectedProduct));
     }

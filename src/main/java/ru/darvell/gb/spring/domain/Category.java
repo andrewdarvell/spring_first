@@ -1,20 +1,19 @@
 package ru.darvell.gb.spring.domain;
 
 import lombok.*;
+import ru.darvell.gb.spring.domain.dto.CategoryDTO;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.util.List;
 
+@Entity
+@Table(name = "category")
 @Data
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode
-@Entity
-@Table(name = "product")
-@Builder
-public class Product {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,16 +23,12 @@ public class Product {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "cost")
-    private BigDecimal cost;
+    @OneToMany(mappedBy = "category")
+    List<Product> products;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    public Product(ProductDTO that) {
+    public Category(CategoryDTO that) {
         id = that.getId();
         title = that.getTitle();
-        cost = that.getCost();
     }
+
 }

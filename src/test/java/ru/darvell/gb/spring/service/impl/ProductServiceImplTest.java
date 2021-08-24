@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.darvell.gb.spring.domain.Product;
-import ru.darvell.gb.spring.dao.ProductDAO;
+import ru.darvell.gb.spring.repository.ProductRepository;
 import ru.darvell.gb.spring.service.ProductService;
 
 import java.math.BigDecimal;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 class ProductServiceImplTest {
 
     @Mock
-    public ProductDAO productDAO;
+    public ProductRepository productRepository;
 
     public ProductService productService;
 
@@ -31,13 +31,17 @@ class ProductServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        expectedProduct = new Product(1L, "test", new BigDecimal("10.0"));
-        productService = new ProductServiceImpl(productDAO);
+        expectedProduct = Product.builder()
+                .id(1L)
+                .title("test")
+                .cost(new BigDecimal("10.0"))
+                .build();
+        productService = new ProductServiceImpl(productRepository);
     }
 
     @Test
     void shouldReturnOptionalProductOnGetById() {
-        when(productDAO.findById(1L)).thenReturn(Optional.of(expectedProduct));
+        when(productRepository.findById(1L)).thenReturn(Optional.of(expectedProduct));
         Optional<Product> actualOptionalProduct = productService.findById(1L);
         Assertions.assertTrue(actualOptionalProduct.isPresent());
         Product actualProduct = actualOptionalProduct.get();
@@ -46,7 +50,7 @@ class ProductServiceImplTest {
 
     @Test
     void shouldReturnListOnGetAll() {
-        when(productDAO.getAll()).thenReturn(Collections.singletonList(expectedProduct));
+        when(productRepository.findAll()).thenReturn(Collections.singletonList(expectedProduct));
         List<Product> products = productService.getAll();
         Assertions.assertNotNull(products);
         Assertions.assertEquals(1, products.size());
@@ -55,9 +59,9 @@ class ProductServiceImplTest {
 
     @Test
     void shouldRunSaveOrUpdateOnDAO() {
-        when(productDAO.saveOrUpdate(Mockito.any())).thenReturn(expectedProduct);
+        when(productRepository.saveAndFlush(Mockito.any())).thenReturn(expectedProduct);
         productService.saveOrUpdate(expectedProduct);
-        verify(productDAO, times(1)).saveOrUpdate(Mockito.any());
+        verify(productRepository, times(1)).saveAndFlush(Mockito.any());
     }
 
 }

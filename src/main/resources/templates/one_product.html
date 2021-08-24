@@ -5,6 +5,9 @@
     <title>Продукт</title>
 </head>
 <body>
+
+<h3><a th:href="@{/product}"><span th:text="Продукты"></span></a></h3>
+
 <h3>Изменить продукт</h3>
 <form action="#" th:action="@{/product}" th:object="${product}" method="post">
     <p>id: <input type="text" th:field="*{id}" readonly/></p>

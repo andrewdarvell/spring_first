@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<h3><a th:href="@{/category}"><span th:text="Категории"></span></a></h3>
+
 <h3>Добавить продукт</h3>
 <form action="#" th:action="@{/product}" th:object="${product}" method="post">
     <p>Наименование продукта: <input type="text" th:field="*{title}"/></p>

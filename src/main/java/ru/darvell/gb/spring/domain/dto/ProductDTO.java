@@ -14,10 +14,16 @@ public class ProductDTO {
     private long id;
     private String title;
     private BigDecimal cost;
+    private Long categoryId;
+    private String categoryName;
 
     public ProductDTO(Product that) {
         id = that.getId();
         title = that.getTitle();
         cost = that.getCost();
+        if (that.getCategory() != null) {
+            categoryId = that.getCategory().getId();
+            categoryName = that.getCategory().getTitle();
+        }
     }
 }

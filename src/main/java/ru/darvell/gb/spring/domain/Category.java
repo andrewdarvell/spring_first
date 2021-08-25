@@ -2,17 +2,19 @@ package ru.darvell.gb.spring.domain;
 
 import lombok.*;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
-import ru.darvell.gb.spring.domain.dto.ProductDTO;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "category")
-@Data
-@ToString
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@Builder
 public class Category {
 
     @Id
@@ -24,7 +26,16 @@ public class Category {
     private String title;
 
     @OneToMany(mappedBy = "category")
-    List<Product> products;
+    @ToString.Exclude
+    private List<Product> products;
+
+    @Column(name="parent_category_id")
+    private Long parentId;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name="parent_category_id")
+    @ToString.Exclude
+    private Set<Category> childCategories;
 
     public Category(CategoryDTO that) {
         id = that.getId();

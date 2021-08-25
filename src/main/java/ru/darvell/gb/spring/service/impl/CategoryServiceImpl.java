@@ -26,6 +26,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Optional<Category> findByTitle(String title) {
+        return categoryRepository.findCategoryByTitleIgnoreCase(title);
+    }
+
+    @Override
     public Category saveOrUpdate(Category category) {
         return categoryRepository.saveAndFlush(category);
     }

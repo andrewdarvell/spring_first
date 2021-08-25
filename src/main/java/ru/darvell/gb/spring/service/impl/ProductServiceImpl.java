@@ -2,6 +2,7 @@ package ru.darvell.gb.spring.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.repository.ProductRepository;
 import ru.darvell.gb.spring.service.ProductService;
@@ -18,6 +19,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getAll() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> getAllByCategory(Category category) {
+        return productRepository.findAllByCategory(category);
     }
 
     @Override

@@ -6,11 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.darvell.gb.spring.domain.Category;
-import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
-import ru.darvell.gb.spring.domain.dto.ProductDTO;
 import ru.darvell.gb.spring.service.CategoryService;
-import ru.darvell.gb.spring.service.ProductService;
 
 import java.util.stream.Collectors;
 
@@ -29,12 +26,6 @@ public class CategoryController {
         return "categories";
     }
 
-
-//    @GetMapping(value = "/{id}")
-//    public String getCategory(@PathVariable(name = "id") long id, Model model) {
-//        model.addAttribute("product", new CategoryDTO(categoryService.findById(id).orElse(new Category())));
-//        return "one_product";
-//    }
 
     @PostMapping
     public String addCategory(@ModelAttribute CategoryDTO categoryDTO) {

@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @Entity
 @Table(name = "product")
+@Builder
 public class Product {
 
     @Id
@@ -25,6 +26,10 @@ public class Product {
 
     @Column(name = "cost")
     private BigDecimal cost;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Product(ProductDTO that) {
         id = that.getId();

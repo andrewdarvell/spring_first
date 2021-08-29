@@ -6,12 +6,30 @@
 </head>
 <body>
 
+<h3><a th:href="@{/category}"><span th:text="Категории"></span></a></h3>
+
 <h3>Добавить продукт</h3>
 <form action="#" th:action="@{/product}" th:object="${product}" method="post">
     <p>Наименование продукта: <input type="text" th:field="*{title}"/></p>
     <p>Стоимость: <input type="text" th:field="*{cost}"/></p>
+    <select th:field="*{categoryId}">
+        <option th:each="i : ${categories}" th:value="${i.getId()}" th:text="${i.getTitle()}">
+        </option>
+    </select>
     <p><input type="submit" value="Сохранить"/> <input type="reset" value="Отмена"/></p>
 </form>
+
+<h3>Фильтр по категории</h3>
+<form action="#" th:action="@{/product}" method="get">
+    <select name="category">
+        <option th:each="i : ${categories}" th:value="${i.getTitle()}" th:text="${i.getTitle()}">
+        </option>
+    </select>
+    <p><input type="submit" value="Отфильтровать"/></p>
+</form>
+
+
+<h3><a th:href="@{/product}"><span>Сбросить фильтры</span></a></h3>
 
 <br>
 
@@ -22,6 +40,7 @@
         <th>ID</th>
         <th>Наименование</th>
         <th>Стоимость</th>
+        <th>Категория</th>
     </tr>
     </thead>
     <tbody>
@@ -31,6 +50,7 @@
             <a th:href="@{|product/${p.id}|}"><span th:text="${p.title}"></span></a>
         </td>
         <td th:text="${p.cost}"/>
+        <td th:text="${p.categoryName}"/>
     </tr>
     </tbody>
 </table>

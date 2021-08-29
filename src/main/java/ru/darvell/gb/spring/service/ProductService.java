@@ -9,5 +9,5 @@ public interface ProductService {
 
     List<Product> getAll();
     Optional<Product> findById(long id);
-    void addProduct(Product product);
+    void saveOrUpdate(Product product);
 }

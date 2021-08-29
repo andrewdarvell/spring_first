@@ -15,6 +15,7 @@ import ru.darvell.gb.spring.service.ProductService;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -35,6 +36,7 @@ class ProductControllerTest extends MVCTestConfig {
     public void setUp() {
         expectedProduct = new Product(1L, "test", new BigDecimal("10.0"));
         when(productService.getAll()).thenReturn(Collections.singletonList(expectedProduct));
+        when(productService.findById(1L)).thenReturn(Optional.of(expectedProduct));
     }
 
     @Test
@@ -50,6 +52,15 @@ class ProductControllerTest extends MVCTestConfig {
 
     @Test
     @SneakyThrows
+    void getProductsByIdReqShouldReturnProductPageWithDTOData() {
+        mockMvc.perform(get("/product/1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("one_product"))
+                .andExpect(model().attribute("product", new ProductDTO(expectedProduct)));
+    }
+
+    @Test
+    @SneakyThrows
     void postProductReqShouldStoreProduct() {
         mockMvc.perform(post("/product")
                 .param("title", "test")
@@ -57,6 +68,6 @@ class ProductControllerTest extends MVCTestConfig {
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/product"));
-        verify(productService, times(1)).addProduct(Mockito.any());
+        verify(productService, times(1)).saveOrUpdate(Mockito.any());
     }
 }

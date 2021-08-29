@@ -9,10 +9,12 @@ import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
+import ru.darvell.gb.spring.exception.ShopProductException;
 import ru.darvell.gb.spring.service.CategoryService;
 import ru.darvell.gb.spring.service.ProductService;
+import ru.darvell.gb.spring.service.ShopProductService;
 
-import java.util.Collections;
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -24,44 +26,51 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ProductController {
 
-    private final ProductService productService;
-    private final CategoryService categoryService;
+    private final ShopProductService shopProductService;
 
     @GetMapping
-    public String getProducts(Model model, @RequestParam(name = "category", required = false) String categoryTitle) {
-        List<Product> productList = new LinkedList<>();
-        log.info(categoryTitle);
-        if (categoryTitle != null) {
-            Optional<Category> categoryOptional = categoryService.findByTitle(categoryTitle);
-            if (categoryOptional.isPresent()) {
-                productList = productService.getAllByCategory(categoryOptional.get());
-            }
-        } else {
-            productList = productService.getAll();
-        }
+    public String getProducts(Model model, @RequestParam(name = "category", required = false) String categoryTitle,
+                              @RequestParam(name = "minCost", required = false) BigDecimal minCost,
+                              @RequestParam(name = "maxCost", required = false) BigDecimal maxCost,
+                              @RequestParam(name = "title", required = false) String title
+                              ) {
 
-        model.addAttribute("products", productList.stream().map(ProductDTO::new).collect(Collectors.toList()));
-        model.addAttribute("product", new ProductDTO());
-        model.addAttribute("categories", categoryService.getAll().stream().map(CategoryDTO::new).collect(Collectors.toList()));
+        if (categoryTitle != null) {
+            model.addAttribute("products", shopProductService.getAllProductsFilteredByCategoryTitle(categoryTitle));
+        } else if (title != null || minCost!=null || maxCost != null) {
+            model.addAttribute("products", shopProductService.getAllProductsFilterByCostAndTitle(minCost, maxCost, title));
+        } else {
+            model.addAttribute("products", shopProductService.getAllProducts());
+        }
+        model.addAttribute("filters", String.format("категория=%s, мнимальная цена=%s, максимальная цена=%s, название=%s",
+                categoryTitle, maxCost, maxCost, title));
+        model.addAttribute("categories", shopProductService.getAllCategories());
         return "products";
     }
 
 
-    @GetMapping(value = "/{id}")
-    public String getProduct(@PathVariable(name = "id") long id, Model model) {
-        model.addAttribute("product", new ProductDTO(productService.findById(id).orElse(new Product())));
+    @GetMapping(value = "/form")
+    public String getProduct(@RequestParam(name = "id", required = false) Long id, Model model) {
+        prepareModelForForm(model,shopProductService.getProductByIdOrEmpty(id),"");
         return "one_product";
     }
 
     @PostMapping
-    public String addProduct(@ModelAttribute ProductDTO productDTO) {
-        log.info("new product : {}", productDTO);
-        if (!productDTO.getTitle().isBlank() && productDTO.getCost() != null) {
-            Product product = new Product(productDTO);
-            categoryService.findById(productDTO.getCategoryId()).ifPresent(product::setCategory);
-            productService.saveOrUpdate(product);
+    public String saveOrUpdateProduct(@ModelAttribute ProductDTO productDTO, Model model) {
+        try {
+            shopProductService.saveOrUpdateProduct(productDTO);
+        } catch (ShopProductException e) {
+            prepareModelForForm(model, productDTO, e.getMessage());
+            return "one_product";
         }
         return "redirect:/product";
+    }
+
+    private Model prepareModelForForm(Model model, ProductDTO productDTO, String errors) {
+        model.addAttribute("product", productDTO);
+        model.addAttribute("errors", errors);
+        model.addAttribute("categories",  shopProductService.getAllCategories());
+        return model;
     }
 
 }

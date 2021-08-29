@@ -7,6 +7,7 @@ import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.repository.ProductRepository;
 import ru.darvell.gb.spring.service.ProductService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,12 +28,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> findById(long id) {
+    public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
     }
 
     @Override
-    public void saveOrUpdate(Product product) {
-        productRepository.saveAndFlush(product);
+    public Product saveOrUpdate(Product product) {
+        return productRepository.saveAndFlush(product);
+    }
+
+    @Override
+    public List<Product> getAllProductsFilterByCostAndTitle(BigDecimal minCost, BigDecimal maxCost, String title) {
+        return productRepository.getAllProductsFilterByCostAndTitle(minCost, maxCost, title);
     }
 }

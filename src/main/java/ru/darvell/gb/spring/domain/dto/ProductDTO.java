@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @ToString
 @EqualsAndHashCode
 public class ProductDTO {
-    private long id;
+    private Long id;
     private String title;
     private BigDecimal cost;
     private Long categoryId;

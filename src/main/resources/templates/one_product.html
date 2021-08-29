@@ -8,11 +8,21 @@
 
 <h3><a th:href="@{/product}"><span th:text="Продукты"></span></a></h3>
 
+<div th:if="${!errors.isEmpty()}" class="alert alert-danger" role="alert">
+    <ul class="list-group">
+        <li th:each="error : ${errors.split('\n')}" th:text="${error}" class="list-group-item">Error #1</li>
+    </ul>
+</div>
+
 <h3>Изменить продукт</h3>
 <form action="#" th:action="@{/product}" th:object="${product}" method="post">
     <p>id: <input type="text" th:field="*{id}" readonly/></p>
     <p>Наименование продукта: <input type="text" th:field="*{title}"/></p>
     <p>Стоимость: <input type="text" th:field="*{cost}"/></p>
+    <select th:field="*{categoryId}">
+        <option th:each="i : ${categories}" th:value="${i.getId()}" th:text="${i.getTitle()}" th:selected="(${i.getId()} == *{categoryId})">
+        </option>
+    </select>
     <p><input type="submit" value="Сохранить"/> <input type="reset" value="Отмена"/></p>
 </form>
 </body>

@@ -15,6 +15,7 @@ import ru.darvell.gb.spring.domain.dto.CategoryDTO;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
 import ru.darvell.gb.spring.service.CategoryService;
 import ru.darvell.gb.spring.service.ProductService;
+import ru.darvell.gb.spring.service.ShopProductService;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -31,11 +32,7 @@ class ProductControllerTest extends MVCTestConfig {
     public MockMvc mockMvc;
 
     @MockBean
-    public ProductService productService;
-
-    @MockBean
-    public CategoryService categoryService;
-
+    public ShopProductService shopProductService;
 
     public Product expectedProduct;
     public Category expectedCategory;
@@ -49,21 +46,18 @@ class ProductControllerTest extends MVCTestConfig {
                 .cost(new BigDecimal("10.0"))
                 .build();
 
-        when(productService.getAll()).thenReturn(Collections.singletonList(expectedProduct));
-        when(productService.findById(1L)).thenReturn(Optional.of(expectedProduct));
-        when(categoryService.getAll()).thenReturn(Collections.singletonList(expectedCategory));
-        when(categoryService.findById(1L)).thenReturn(Optional.of(expectedCategory));
+        when(shopProductService.getAllProducts()).thenReturn(Collections.singletonList(new ProductDTO(expectedProduct)));
+        when(shopProductService.getProductByIdOrEmpty(1L)).thenReturn(new ProductDTO(expectedProduct));
+        when(shopProductService.getAllCategories()).thenReturn(Collections.singletonList(new CategoryDTO(expectedCategory)));
     }
 
     @Test
     @SneakyThrows
     void getProductsReqShouldReturnProductPageWithDTOData() {
-        Product emptyExpectedProduct = new Product();
         mockMvc.perform(get("/product"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("products"))
                 .andExpect(model().attribute("products", Collections.singletonList(new ProductDTO(expectedProduct))))
-                .andExpect(model().attribute("product", new ProductDTO(emptyExpectedProduct)))
                 .andExpect(model().attribute("categories", Collections.singletonList(new CategoryDTO(expectedCategory))))
         ;
     }
@@ -71,10 +65,12 @@ class ProductControllerTest extends MVCTestConfig {
     @Test
     @SneakyThrows
     void getProductsByIdReqShouldReturnProductPageWithDTOData() {
-        mockMvc.perform(get("/product/1"))
+        mockMvc.perform(get("/product/form?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("one_product"))
-                .andExpect(model().attribute("product", new ProductDTO(expectedProduct)));
+                .andExpect(model().attribute("product", new ProductDTO(expectedProduct)))
+                .andExpect(model().attribute("categories", Collections.singletonList(new CategoryDTO(expectedCategory))))
+            ;
     }
 
     @Test
@@ -87,7 +83,6 @@ class ProductControllerTest extends MVCTestConfig {
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/product"));
-        verify(productService, times(1)).saveOrUpdate(Mockito.any());
-        verify(categoryService, times(1)).findById(1L);
+        verify(shopProductService, times(1)).saveOrUpdateProduct(Mockito.any());
     }
 }

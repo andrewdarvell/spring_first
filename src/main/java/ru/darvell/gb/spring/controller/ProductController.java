@@ -5,11 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
-import ru.darvell.gb.spring.exception.ShopProductException;
-import ru.darvell.gb.spring.service.ShopProductService;
+import ru.darvell.gb.spring.exception.ShopException;
+import ru.darvell.gb.spring.service.ShopService;
 
-import java.math.BigDecimal;
+import java.util.Map;
 
 @Controller
 @AllArgsConstructor
@@ -17,50 +18,48 @@ import java.math.BigDecimal;
 @Slf4j
 public class ProductController {
 
-    private final ShopProductService shopProductService;
+
+    private final ShopService shopService;
 
     @GetMapping
-    public String getProducts(Model model, @RequestParam(name = "category", required = false) String categoryTitle,
-                              @RequestParam(name = "minCost", required = false) BigDecimal minCost,
-                              @RequestParam(name = "maxCost", required = false) BigDecimal maxCost,
-                              @RequestParam(name = "title", required = false) String title
-                              ) {
-
-        if (categoryTitle != null) {
-            model.addAttribute("products", shopProductService.getAllProductsFilteredByCategoryTitle(categoryTitle));
-        } else if (title != null || minCost!=null || maxCost != null) {
-            model.addAttribute("products", shopProductService.getAllProductsFilterByCostAndTitle(minCost, maxCost, title));
-        } else {
-            model.addAttribute("products", shopProductService.getAllProducts());
-        }
-        model.addAttribute("filters", String.format("категория=%s, мнимальная цена=%s, максимальная цена=%s, название=%s",
-                categoryTitle, minCost, maxCost, title));
-        model.addAttribute("categories", shopProductService.getAllCategories());
+    public String getProducts(Model model, @RequestParam Map<String, String> allRequestParams) {
+        log.info("request params {}", allRequestParams);
+        model.addAttribute("products", shopService.getAllProducts(allRequestParams));
+        model.addAttribute("filters", "ffff");
+        model.addAttribute("categories", shopService.getAllCategories());
         return "products";
     }
 
 
     @GetMapping(value = "/form")
     public String getProduct(@RequestParam(name = "id", required = false) Long id, Model model) {
-        prepareModelForForm(model,shopProductService.getProductByIdOrEmpty(id),"");
+        prepareModelForForm(model, shopService.getProductByIdOrEmpty(id), "");
         return "one_product";
     }
 
     @PostMapping
-    public String saveOrUpdateProduct(@ModelAttribute ProductDTO productDTO, Model model) {
+    public String saveOrUpdateProduct(@ModelAttribute ProductDTO productDTO,
+                                      @RequestParam(value = "image", required = false) MultipartFile image,
+                                      Model model) {
         try {
-            shopProductService.saveOrUpdateProduct(productDTO);
-        } catch (ShopProductException e) {
+            shopService.saveWithImage(productDTO, image);
+        } catch (ShopException e) {
             prepareModelForForm(model, productDTO, e.getMessage());
             return "one_product";
         }
         return "redirect:/product";
     }
 
+    @GetMapping("/delete")
+    public String deleteProduct(@RequestParam(name = "id") Long productId) {
+        shopService.deleteProductByID(productId);
+        return "redirect:/product";
+    }
+
     private Model prepareModelForForm(Model model, ProductDTO productDTO, String errors) {
         model.addAttribute("product", productDTO);
         model.addAttribute("errors", errors);
-        model.addAttribute("categories",  shopProductService.getAllCategories());
+        model.addAttribute("categories", shopService.getAllCategories());
         return model;
     }
 

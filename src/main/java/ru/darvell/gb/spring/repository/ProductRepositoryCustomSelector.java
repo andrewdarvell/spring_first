@@ -4,8 +4,9 @@ import ru.darvell.gb.spring.domain.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public interface ProductRepositoryCustomSelector {
 
-    List<Product> getAllProductsFilterByCostAndTitle(BigDecimal minCost, BigDecimal maxCost, String title);
+    List<Product> getAllProductsFiltered(Map<String, String> filters);
 }

@@ -27,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Optional<Category> findByTitle(String title) {
-        return categoryRepository.findCategoryByTitleIgnoreCase(title);
+        return Optional.ofNullable(categoryRepository.findCategoryByTitleIgnoreCase(title).get(0));
     }
 
     @Override

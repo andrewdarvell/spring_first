@@ -13,13 +13,10 @@ import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
-import ru.darvell.gb.spring.service.CategoryService;
-import ru.darvell.gb.spring.service.ProductService;
-import ru.darvell.gb.spring.service.ShopProductService;
+import ru.darvell.gb.spring.service.ShopService;
 
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,7 +29,7 @@ class ProductControllerTest extends MVCTestConfig {
     public MockMvc mockMvc;
 
     @MockBean
-    public ShopProductService shopProductService;
+    public ShopService shopService;
 
     public Product expectedProduct;
     public Category expectedCategory;
@@ -46,9 +43,9 @@ class ProductControllerTest extends MVCTestConfig {
                 .cost(new BigDecimal("10.0"))
                 .build();
 
-        when(shopProductService.getAllProducts()).thenReturn(Collections.singletonList(new ProductDTO(expectedProduct)));
-        when(shopProductService.getProductByIdOrEmpty(1L)).thenReturn(new ProductDTO(expectedProduct));
-        when(shopProductService.getAllCategories()).thenReturn(Collections.singletonList(new CategoryDTO(expectedCategory)));
+        when(shopService.getAllProducts(Mockito.any())).thenReturn(Collections.singletonList(new ProductDTO(expectedProduct)));
+        when(shopService.getProductByIdOrEmpty(1L)).thenReturn(new ProductDTO(expectedProduct));
+        when(shopService.getAllCategories()).thenReturn(Collections.singletonList(new CategoryDTO(expectedCategory)));
     }
 
     @Test
@@ -83,6 +80,6 @@ class ProductControllerTest extends MVCTestConfig {
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/product"));
-        verify(shopProductService, times(1)).saveOrUpdateProduct(Mockito.any());
+        verify(shopService, times(1)).saveOrUpdateProduct(Mockito.any());
     }
 }

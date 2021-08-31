@@ -9,6 +9,7 @@ import ru.darvell.gb.spring.service.ProductService;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,10 +23,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
 
-    @Override
-    public List<Product> getAllByCategory(Category category) {
-        return productRepository.findAllByCategory(category);
-    }
 
     @Override
     public Optional<Product> findById(Long id) {
@@ -38,7 +35,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProductsFilterByCostAndTitle(BigDecimal minCost, BigDecimal maxCost, String title) {
-        return productRepository.getAllProductsFilterByCostAndTitle(minCost, maxCost, title);
+    public List<Product> getAllProductsFiltered(Map<String, String> filters) {
+        return productRepository.getAllProductsFiltered(filters);
+    }
+
+    @Override
+    public void deleteProduct(Product product) {
+        productRepository.delete(product);
     }
 }

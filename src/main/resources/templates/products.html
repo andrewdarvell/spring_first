@@ -2,60 +2,71 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Продукты</title>
 </head>
 <body>
 
-<h3><a th:href="@{/category}"><span>Категории</span></a></h3>
-<h3><a th:href="@{/product/form}"><span>Добавить продукт</span></a></h3>
+<div class="container">
+
+    <h3><a th:href="@{/category}"><span>Категории</span></a></h3>
+    <h3><a th:href="@{/product/form}"><span>Добавить продукт</span></a></h3>
 
 
-<h3>Фильтр по названию категории</h3>
-<form action="#" th:action="@{/product}" method="get">
-    <select name="category">
-        <option th:each="i : ${categories}" th:value="${i.getTitle()}" th:text="${i.getTitle()}">
-        </option>
-    </select>
-    <p><input type="submit" value="Отфильтровать"/></p>
-</form>
+    <h3>Фильтры</h3>
+    <form action="#" th:action="@{/product}" method="get">
+        <div class="form-group">
+            <select name="category" title="Категория">
+                <option th:each="i : ${categories}" th:value="${i.getTitle()}" th:text="${i.getTitle()}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <p>Минимальная цена: <input type="text" name="minCost"/></p>
+        </div>
+        <p>Максимальная цена: <input type="text" name="maxCost"/></p>
+        <p>Название: <input type="text" name="title"/></p>
 
-<h3>Фильтры урок 7</h3>
-<form action="#" th:action="@{/product}" method="get">
-    <p>Минимальная цена: <input type="text" name="minCost"/></p>
-    <p>Максимальная цена: <input type="text" name="maxCost"/></p>
-    <p>Название: <input type="text" name="title"/></p>
+        <p><input type="submit" value="Отфильтровать"/></p>
+    </form>
 
-    <p><input type="submit" value="Отфильтровать"/></p>
-</form>
+    <h3>Применены фильтры</h3>
+    <h4 th:text="|${filters}|"></h4>
 
-<h3>Применены фильтры</h3>
-<h4 th:text="|${filters}|"></h4>
+    <h3><a th:href="@{/product}"><span>Сбросить фильтры</span></a></h3>
 
-<h3><a th:href="@{/product}"><span>Сбросить фильтры</span></a></h3>
+    <br>
 
-<br>
-
-<h3>Все продукты</h3>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Наименование</th>
-        <th>Стоимость</th>
-        <th>Категория</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="p : ${products}">
-        <td th:text="${p.id}"/>
-        <td>
-            <a th:href="@{product/form(id=${p.id})}" href="#"><span th:text="${p.title}"></span></a>
-        </td>
-        <td th:text="${p.cost}"/>
-        <td th:text="${p.categoryName}"/>
-    </tr>
-    </tbody>
-</table>
-
+    <h3>Все продукты</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Наименование</th>
+            <th>Стоимость</th>
+            <th>Категория</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${products}">
+            <td th:text="${p.id}"/>
+            <td>
+                <a th:href="@{product/form(id=${p.id})}" href="#"><span th:text="${p.title}"></span></a>
+            </td>
+            <td th:text="${p.cost}"/>
+            <td th:text="${p.categoryName}"/>
+            <td>
+                <a th:href="@{product/delete(id=${p.id})}" href="#"><span>Удалить</span></a>
+            </td>
+            <td>
+                <a th:href="@{${p.imageLink}}" href="#"><span>Удалить</span></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
+
 </html>

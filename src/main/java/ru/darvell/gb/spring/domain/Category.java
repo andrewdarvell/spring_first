@@ -25,6 +25,7 @@ public class Category {
     private long id;
 
     @Column(name = "title")
+    @NotBlank(message = "Имя категории обязательно")
     private String title;
 
     @OneToMany(mappedBy = "category")

@@ -32,6 +32,9 @@ public class Product {
     @Column(name = "cost")
     private BigDecimal cost;
 
+    @Column(name = "image_link")
+    private String imageLink;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     @NotNull(message = "Категория обязательна")
@@ -41,5 +44,6 @@ public class Product {
         id = that.getId();
         title = that.getTitle();
         cost = that.getCost();
+        imageLink = that.getImageLink();
     }
 }

@@ -5,20 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.darvell.gb.spring.domain.Category;
-import ru.darvell.gb.spring.domain.Product;
-import ru.darvell.gb.spring.domain.dto.CategoryDTO;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
 import ru.darvell.gb.spring.exception.ShopProductException;
-import ru.darvell.gb.spring.service.CategoryService;
-import ru.darvell.gb.spring.service.ProductService;
 import ru.darvell.gb.spring.service.ShopProductService;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -43,7 +34,7 @@ public class ProductController {
             model.addAttribute("products", shopProductService.getAllProducts());
         }
         model.addAttribute("filters", String.format("категория=%s, мнимальная цена=%s, максимальная цена=%s, название=%s",
-                categoryTitle, maxCost, maxCost, title));
+                categoryTitle, minCost, maxCost, title));
         model.addAttribute("categories", shopProductService.getAllCategories());
         return "products";
     }

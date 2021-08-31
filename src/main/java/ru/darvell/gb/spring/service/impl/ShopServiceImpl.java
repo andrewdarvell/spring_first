@@ -67,9 +67,7 @@ public class ShopServiceImpl implements ShopService {
         }
 
         String categoryTitle = filters.get(KEY_CATEGORY_NAME_FILTER);
-        categoryService.findByTitle(categoryTitle).ifPresent(c -> {
-            filters.put(KEY_CATEGORY_ID, String.valueOf(c.getId()));
-        });
+        categoryService.findByTitle(categoryTitle).ifPresent(c -> filters.put(KEY_CATEGORY_ID, String.valueOf(c.getId())));
 
         return productService.getAllProductsFiltered(filters)
                 .stream().map(ProductDTO::new).collect(Collectors.toList());

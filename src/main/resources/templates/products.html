@@ -57,7 +57,7 @@
             <div class="card-body">
                 <h5 class="card-title" th:text="${p.id}">Card title</h5>
                 <h6 class="card-subtitle mb-2 text-muted" th:text="${p.categoryName}">Card subtitle</h6>
-                <h6 class="card-subtitle mb-2 text-muted" th:text="${p.cost}">Card subtitle</h6>
+                <h6 class="card-subtitle mb-2 text-muted" th:text="|Стоимость ${p.cost}|">Card subtitle</h6>
 
                 <a th:href="@{product/form(id=${p.id})}" href="#" class="btn btn-primary"><span>Изменить</span></a>
                 <a th:href="@{product/delete(id=${p.id})}" href="#" class="btn btn-primary"><span>Удалить</span></a>

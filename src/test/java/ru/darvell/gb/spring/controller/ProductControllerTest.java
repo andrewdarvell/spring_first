@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.darvell.gb.spring.MVCTestConfig;
 import ru.darvell.gb.spring.domain.Category;
@@ -51,10 +52,13 @@ class ProductControllerTest extends MVCTestConfig {
     @Test
     @SneakyThrows
     void getProductsReqShouldReturnProductPageWithDTOData() {
+        Page page = Mockito.mock(Page.class);
+        when(page.getTotalPages()).thenReturn(1);
+        when(shopService.getAllProducts(Mockito.any(), Mockito.any())).thenReturn(page);
         mockMvc.perform(get("/product"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("products"))
-                .andExpect(model().attribute("products", Collections.singletonList(new ProductDTO(expectedProduct))))
+                .andExpect(model().attribute("page", page))
                 .andExpect(model().attribute("categories", Collections.singletonList(new CategoryDTO(expectedCategory))))
         ;
     }

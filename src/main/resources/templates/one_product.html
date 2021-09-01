@@ -21,6 +21,7 @@
     <form action="#" th:action="@{/product}" th:object="${product}" method="post" enctype="multipart/form-data">
 
         <input type="hidden" th:field="*{id}" readonly/>
+        <input type="hidden" th:field="*{imageLink}" readonly/>
 
         <div class="form-group">
             <label for="price">Наименование продукта:</label>
@@ -40,7 +41,6 @@
         </div>
         <div class="form-group">
             <input type="file" name="image" id="image">
-            <!--                <label class="custom-file-label" for="image">Выберите изображение</label>-->
         </div>
         <p><input type="submit" value="Сохранить"/> <input type="reset" value="Отмена"/></p>
     </form>

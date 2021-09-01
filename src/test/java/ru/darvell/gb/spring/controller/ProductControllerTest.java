@@ -80,6 +80,6 @@ class ProductControllerTest extends MVCTestConfig {
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/product"));
-        verify(shopService, times(1)).saveOrUpdateProduct(Mockito.any());
+        verify(shopService, times(1)).saveWithImage(Mockito.any(), Mockito.any());
     }
 }

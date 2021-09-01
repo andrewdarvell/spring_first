@@ -5,8 +5,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Продукты</title>
+    <style>
+        .my-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+    </style>
 </head>
 <body>
+
 
 <div class="container">
 
@@ -31,41 +39,33 @@
         <p><input type="submit" value="Отфильтровать"/></p>
     </form>
 
-    <h3>Применены фильтры</h3>
-    <h4 th:text="|${filters}|"></h4>
-
     <h3><a th:href="@{/product}"><span>Сбросить фильтры</span></a></h3>
 
     <br>
+    <div class="my-container">
+        <div style="padding-right: 5px" th:if="${page.totalPages > 1}" class="pagination" th:each="pageNumber : ${pageNumbers}">
+            <a th:href="@{/product(pageNum=${pageNumber - 1})}"
+               th:text="${pageNumber}"
+               th:class="${pageNumber==page.number} ? active"></a>
+        </div>
+    </div>
 
     <h3>Все продукты</h3>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Наименование</th>
-            <th>Стоимость</th>
-            <th>Категория</th>
-            <th>Действия</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="p : ${products}">
-            <td th:text="${p.id}"/>
-            <td>
-                <a th:href="@{product/form(id=${p.id})}" href="#"><span th:text="${p.title}"></span></a>
-            </td>
-            <td th:text="${p.cost}"/>
-            <td th:text="${p.categoryName}"/>
-            <td>
-                <a th:href="@{product/delete(id=${p.id})}" href="#"><span>Удалить</span></a>
-            </td>
-            <td>
-                <a th:href="@{${p.imageLink}}" href="#"><span>Удалить</span></a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="my-container">
+        <div class="card" style="width: 18rem;" th:each="p : ${page.getContent()}">
+            <img class="card-img-top" th:src="@{${p.imageLink}}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${p.id}">Card title</h5>
+                <h6 class="card-subtitle mb-2 text-muted" th:text="${p.categoryName}">Card subtitle</h6>
+                <h6 class="card-subtitle mb-2 text-muted" th:text="${p.cost}">Card subtitle</h6>
+
+                <a th:href="@{product/form(id=${p.id})}" href="#" class="btn btn-primary"><span>Изменить</span></a>
+                <a th:href="@{product/delete(id=${p.id})}" href="#" class="btn btn-primary"><span>Удалить</span></a>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 </body>
 

@@ -1,13 +1,13 @@
 package ru.darvell.gb.spring.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.repository.ProductRepository;
 import ru.darvell.gb.spring.service.ProductService;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,6 +21,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getAll() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public Page<Product> getAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
 
@@ -37,6 +42,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getAllProductsFiltered(Map<String, String> filters) {
         return productRepository.getAllProductsFiltered(filters);
+    }
+
+    @Override
+    public List<Product> getAllProductsFiltered(Map<String, String> filters, Pageable pageable) {
+        return productRepository.getAllProductsFiltered(filters, pageable);
     }
 
     @Override

@@ -2,6 +2,9 @@ package ru.darvell.gb.spring.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +13,10 @@ import ru.darvell.gb.spring.domain.dto.ProductDTO;
 import ru.darvell.gb.spring.exception.ShopException;
 import ru.darvell.gb.spring.service.ShopService;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @AllArgsConstructor
@@ -22,9 +28,26 @@ public class ProductController {
     private final ShopService shopService;
 
     @GetMapping
-    public String getProducts(Model model, @RequestParam Map<String, String> allRequestParams) {
+    public String getProducts(Model model,
+                              @RequestParam Map<String, String> allRequestParams,
+                              @RequestParam(value = "pageNum", required = false) Integer pageNum) {
         log.info("request params {}", allRequestParams);
-        model.addAttribute("products", shopService.getAllProducts(allRequestParams));
+
+        final int pageSize = 10;
+
+
+        Pageable pageRequest = PageRequest.of(pageNum == null ? 0 : pageNum, pageSize);
+        Page<ProductDTO> page = shopService.getAllProducts(allRequestParams, pageRequest);
+        model.addAttribute("page", page);
+
+        int totalPages = page.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
         model.addAttribute("filters", "ffff");
         model.addAttribute("categories", shopService.getAllCategories());
         return "products";

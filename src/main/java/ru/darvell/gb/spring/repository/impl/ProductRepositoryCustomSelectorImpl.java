@@ -1,13 +1,14 @@
 package ru.darvell.gb.spring.repository.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.repository.ProductRepositoryCustomSelector;
-import ru.darvell.gb.spring.service.ShopConstants;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,9 +25,31 @@ public class ProductRepositoryCustomSelectorImpl implements ProductRepositoryCus
 
     @Override
     public List<Product> getAllProductsFiltered(Map<String, String> filters) {
+        CriteriaQuery<Product> select = executeQuery(filters);
+
+        return entityManager.createQuery(select).getResultList();
+    }
+
+    @Override
+    public List<Product> getAllProductsFiltered(Map<String, String> filters, Pageable pageable) {
+
+
+        CriteriaQuery<Product> select = executeQuery(filters);
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(select);
+        typedQuery.setFirstResult(pageable.getPageNumber());
+        typedQuery.setMaxResults(pageable.getPageSize());
+
+        return typedQuery.getResultList();
+    }
+
+    private CriteriaQuery<Product> executeQuery(Map<String, String> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = query.from(Product.class);
+
+
+
         List<Predicate> predicates = new ArrayList<>();
 
         Path<BigDecimal> costPath = productRoot.get("cost");
@@ -54,9 +77,7 @@ public class ProductRepositoryCustomSelectorImpl implements ProductRepositoryCus
             predicates.add(criteriaBuilder.equal(categoryPath, categoryId));
         }
 
-        query.select(productRoot).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
-
-        return entityManager.createQuery(query).getResultList();
+        return query.select(productRoot).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
     }
 
     private BigDecimal getDecimal(Map<String, String> set, String key){

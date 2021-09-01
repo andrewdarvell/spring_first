@@ -2,9 +2,11 @@ package ru.darvell.gb.spring.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.darvell.gb.spring.controller.ProductController;
 import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
@@ -18,11 +20,9 @@ import ru.darvell.gb.spring.util.FileUtils;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ru.darvell.gb.spring.service.ShopConstants.KEY_CATEGORY_ID;
@@ -59,18 +59,24 @@ public class ShopServiceImpl implements ShopService {
         }
     }
 
-
     @Override
     public List<ProductDTO> getAllProducts(Map<String, String> filters) {
         if (filters.isEmpty()) {
             return productService.getAll().stream().map(ProductDTO::new).collect(Collectors.toList());
         }
-
         String categoryTitle = filters.get(KEY_CATEGORY_NAME_FILTER);
         categoryService.findByTitle(categoryTitle).ifPresent(c -> filters.put(KEY_CATEGORY_ID, String.valueOf(c.getId())));
 
         return productService.getAllProductsFiltered(filters)
                 .stream().map(ProductDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ProductDTO> getAllProducts(Map<String, String> filters, Pageable pageable) {
+        Page<Product> productPage = productService.getAll(pageable);
+        List<ProductDTO> productDTOS = productPage.stream().map(ProductDTO::new).collect(Collectors.toList());
+
+        return new PageImpl<>(productDTOS, pageable, productPage.getTotalElements());
     }
 
     @Override

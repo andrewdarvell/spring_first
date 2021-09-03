@@ -33,7 +33,7 @@ public class ProductController {
                               @RequestParam(value = "pageNum", required = false) Integer pageNum) {
         log.info("request params {}", allRequestParams);
 
-        final int pageSize = 10;
+        final int pageSize = 5;
 
 
         Pageable pageRequest = PageRequest.of(pageNum == null ? 0 : pageNum, pageSize);

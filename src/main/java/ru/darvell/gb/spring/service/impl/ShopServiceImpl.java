@@ -25,8 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static ru.darvell.gb.spring.service.ShopConstants.KEY_CATEGORY_ID;
-import static ru.darvell.gb.spring.service.ShopConstants.KEY_CATEGORY_NAME_FILTER;
+import static ru.darvell.gb.spring.util.ShopConstants.*;
 
 @Service
 @RequiredArgsConstructor
@@ -61,9 +60,14 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public List<ProductDTO> getAllProducts(Map<String, String> filters) {
-        if (filters.isEmpty()) {
+        if (isFiltersEmpty(filters)) {
             return productService.getAll().stream().map(ProductDTO::new).collect(Collectors.toList());
+        } else {
+            return getAllProductsFiltered(filters);
         }
+    }
+
+    private List<ProductDTO> getAllProductsFiltered(Map<String, String> filters) {
         String categoryTitle = filters.get(KEY_CATEGORY_NAME_FILTER);
         categoryService.findByTitle(categoryTitle).ifPresent(c -> filters.put(KEY_CATEGORY_ID, String.valueOf(c.getId())));
 
@@ -73,10 +77,18 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public Page<ProductDTO> getAllProducts(Map<String, String> filters, Pageable pageable) {
-        Page<Product> productPage = productService.getAll(pageable);
-        List<ProductDTO> productDTOS = productPage.stream().map(ProductDTO::new).collect(Collectors.toList());
+        if (isFiltersEmpty(filters)) {
+            Page<Product> productPage = productService.getAll(pageable);
+            List<ProductDTO> productDTOS = productPage.stream().map(ProductDTO::new).collect(Collectors.toList());
+            return new PageImpl<>(productDTOS, pageable, productPage.getTotalElements());
+        } else {
+            List<ProductDTO> productDTOS = getAllProductsFiltered(filters);
+            return new PageImpl<>(productDTOS, pageable, productDTOS.size());
+        }
+    }
 
-        return new PageImpl<>(productDTOS, pageable, productPage.getTotalElements());
+    private boolean isFiltersEmpty(Map<String, String> filters) {
+        return filters.isEmpty() || (filters.keySet().size() == 1 && filters.get(KEY_PAGE_NUMBER) != null);
     }
 
     @Override

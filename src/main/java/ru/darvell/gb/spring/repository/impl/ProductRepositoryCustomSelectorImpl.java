@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static ru.darvell.gb.spring.service.ShopConstants.*;
+import static ru.darvell.gb.spring.util.ShopConstants.*;
 
 @Slf4j
 public class ProductRepositoryCustomSelectorImpl implements ProductRepositoryCustomSelector {

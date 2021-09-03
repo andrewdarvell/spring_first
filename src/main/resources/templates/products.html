@@ -55,7 +55,7 @@
         <div class="card" style="width: 18rem;" th:each="p : ${page.getContent()}">
             <img class="card-img-top" th:src="@{${p.imageLink}}" alt="Card image cap">
             <div class="card-body">
-                <h5 class="card-title" th:text="${p.id}">Card title</h5>
+                <h5 class="card-title" th:text="${p.title}">Card title</h5>
                 <h6 class="card-subtitle mb-2 text-muted" th:text="${p.categoryName}">Card subtitle</h6>
                 <h6 class="card-subtitle mb-2 text-muted" th:text="|Стоимость ${p.cost}|">Card subtitle</h6>
 

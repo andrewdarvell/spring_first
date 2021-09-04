@@ -25,7 +25,9 @@
     <h3>Фильтры</h3>
     <form action="#" th:action="@{/product}" method="get">
         <div class="form-group">
+
             <select name="category" title="Категория">
+                <option value="">Все</option>
                 <option th:each="i : ${categories}" th:value="${i.getTitle()}" th:text="${i.getTitle()}">
                 </option>
             </select>

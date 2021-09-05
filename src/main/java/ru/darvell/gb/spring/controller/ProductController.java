@@ -2,21 +2,21 @@ package ru.darvell.gb.spring.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.darvell.gb.spring.domain.Category;
-import ru.darvell.gb.spring.domain.Product;
-import ru.darvell.gb.spring.domain.dto.CategoryDTO;
+import org.springframework.web.multipart.MultipartFile;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
-import ru.darvell.gb.spring.service.CategoryService;
-import ru.darvell.gb.spring.service.ProductService;
+import ru.darvell.gb.spring.exception.ShopException;
+import ru.darvell.gb.spring.service.ShopService;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @AllArgsConstructor
@@ -24,44 +24,66 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ProductController {
 
-    private final ProductService productService;
-    private final CategoryService categoryService;
+
+    private final ShopService shopService;
 
     @GetMapping
-    public String getProducts(Model model, @RequestParam(name = "category", required = false) String categoryTitle) {
-        List<Product> productList = new LinkedList<>();
-        log.info(categoryTitle);
-        if (categoryTitle != null) {
-            Optional<Category> categoryOptional = categoryService.findByTitle(categoryTitle);
-            if (categoryOptional.isPresent()) {
-                productList = productService.getAllByCategory(categoryOptional.get());
-            }
-        } else {
-            productList = productService.getAll();
+    public String getProducts(Model model,
+                              @RequestParam Map<String, String> allRequestParams,
+                              @RequestParam(value = "pageNum", required = false) Integer pageNum) {
+        log.info("request params {}", allRequestParams);
+
+        final int pageSize = 10;
+
+
+        Pageable pageRequest = PageRequest.of(pageNum == null ? 0 : pageNum, pageSize);
+        Page<ProductDTO> page = shopService.getAllProducts(allRequestParams, pageRequest);
+        model.addAttribute("page", page);
+
+        int totalPages = page.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
         }
 
-        model.addAttribute("products", productList.stream().map(ProductDTO::new).collect(Collectors.toList()));
-        model.addAttribute("product", new ProductDTO());
-        model.addAttribute("categories", categoryService.getAll().stream().map(CategoryDTO::new).collect(Collectors.toList()));
+        model.addAttribute("filters", "ffff");
+        model.addAttribute("categories", shopService.getAllCategories());
         return "products";
     }
 
 
-    @GetMapping(value = "/{id}")
-    public String getProduct(@PathVariable(name = "id") long id, Model model) {
-        model.addAttribute("product", new ProductDTO(productService.findById(id).orElse(new Product())));
+    @GetMapping(value = "/form")
+    public String getProduct(@RequestParam(name = "id", required = false) Long id, Model model) {
+        prepareModelForForm(model, shopService.getProductByIdOrEmpty(id), "");
         return "one_product";
     }
 
     @PostMapping
-    public String addProduct(@ModelAttribute ProductDTO productDTO) {
-        log.info("new product : {}", productDTO);
-        if (!productDTO.getTitle().isBlank() && productDTO.getCost() != null) {
-            Product product = new Product(productDTO);
-            categoryService.findById(productDTO.getCategoryId()).ifPresent(product::setCategory);
-            productService.saveOrUpdate(product);
+    public String saveOrUpdateProduct(@ModelAttribute ProductDTO productDTO,
+                                      @RequestParam(value = "image", required = false) MultipartFile image,
+                                      Model model) {
+        try {
+            shopService.saveWithImage(productDTO, image);
+        } catch (ShopException e) {
+            prepareModelForForm(model, productDTO, e.getMessage());
+            return "one_product";
         }
         return "redirect:/product";
+    }
+
+    @GetMapping("/delete")
+    public String deleteProduct(@RequestParam(name = "id") Long productId) {
+        shopService.deleteProductByID(productId);
+        return "redirect:/product";
+    }
+
+    private Model prepareModelForForm(Model model, ProductDTO productDTO, String errors) {
+        model.addAttribute("product", productDTO);
+        model.addAttribute("errors", errors);
+        model.addAttribute("categories", shopService.getAllCategories());
+        return model;
     }
 
 }

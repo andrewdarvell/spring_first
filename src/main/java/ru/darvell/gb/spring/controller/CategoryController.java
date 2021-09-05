@@ -5,11 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
-import ru.darvell.gb.spring.service.CategoryService;
+import ru.darvell.gb.spring.exception.ShopException;
+import ru.darvell.gb.spring.service.ShopService;
 
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -17,22 +16,30 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CategoryController {
 
-    private final CategoryService categoryService;
+    private final ShopService shopService;
 
     @GetMapping
     public String getCategories(Model model) {
-        model.addAttribute("categories", categoryService.getAll().stream().map(CategoryDTO::new).collect(Collectors.toList()));
-        model.addAttribute("category", new CategoryDTO());
+        prepareModelForForm(model, new CategoryDTO(), "");
         return "categories";
     }
 
 
     @PostMapping
-    public String addCategory(@ModelAttribute CategoryDTO categoryDTO) {
-        log.info("new category : {}", categoryDTO);
-        if (!categoryDTO.getTitle().isBlank()) {
-            categoryService.saveOrUpdate(new Category(categoryDTO));
+    public String addCategory(@ModelAttribute CategoryDTO categoryDTO, Model model) {
+        try {
+            shopService.saveOrUpdateCategory(categoryDTO);
+        } catch (ShopException e) {
+            prepareModelForForm(model, categoryDTO, e.getMessage());
+            return "categories";
         }
         return "redirect:/category";
+    }
+
+    private Model prepareModelForForm(Model model, CategoryDTO categoryDTO, String errors) {
+        model.addAttribute("category", categoryDTO);
+        model.addAttribute("errors", errors);
+        model.addAttribute("categories", shopService.getAllCategories());
+        return model;
     }
 }

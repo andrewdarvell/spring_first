@@ -1,13 +1,15 @@
 package ru.darvell.gb.spring.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.repository.ProductRepository;
 import ru.darvell.gb.spring.service.ProductService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,17 +24,33 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllByCategory(Category category) {
-        return productRepository.findAllByCategory(category);
+    public Page<Product> getAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
+
     @Override
-    public Optional<Product> findById(long id) {
+    public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
     }
 
     @Override
-    public void saveOrUpdate(Product product) {
-        productRepository.saveAndFlush(product);
+    public Product saveOrUpdate(Product product) {
+        return productRepository.saveAndFlush(product);
+    }
+
+    @Override
+    public List<Product> getAllProductsFiltered(Map<String, String> filters) {
+        return productRepository.getAllProductsFiltered(filters);
+    }
+
+    @Override
+    public List<Product> getAllProductsFiltered(Map<String, String> filters, Pageable pageable) {
+        return productRepository.getAllProductsFiltered(filters, pageable);
+    }
+
+    @Override
+    public void deleteProduct(Product product) {
+        productRepository.delete(product);
     }
 }

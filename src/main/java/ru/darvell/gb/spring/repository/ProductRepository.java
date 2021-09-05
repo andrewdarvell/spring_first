@@ -8,7 +8,7 @@ import ru.darvell.gb.spring.domain.Product;
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long> , ProductRepositoryCustomSelector{
 
     List<Product> findAllByCategory(Category category);
 }

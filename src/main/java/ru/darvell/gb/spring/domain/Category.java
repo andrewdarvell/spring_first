@@ -4,6 +4,8 @@ import lombok.*;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +25,7 @@ public class Category {
     private long id;
 
     @Column(name = "title")
+    @NotBlank(message = "Имя категории обязательно")
     private String title;
 
     @OneToMany(mappedBy = "category")

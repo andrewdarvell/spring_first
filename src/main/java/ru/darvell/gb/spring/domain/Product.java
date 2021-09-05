@@ -5,7 +5,6 @@ import ru.darvell.gb.spring.domain.dto.ProductDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -41,7 +40,7 @@ public class Product {
     private Category category;
 
     public Product(ProductDTO that) {
-        id = that.getId();
+        id = that.getId()== null ? -1 : that.getId();
         title = that.getTitle();
         cost = that.getCost();
         imageLink = that.getImageLink();

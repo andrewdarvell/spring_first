@@ -13,4 +13,8 @@ public class ShopException extends RuntimeException{
     public ShopException(Throwable cause) {
         super(cause);
     }
+
+    public ShopException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

@@ -1,4 +1,4 @@
-package ru.darvell.gb.spring.controller;
+package ru.darvell.gb.spring.controller.mvc;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.darvell.gb.spring.domain.FilterProductRequest;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
+import ru.darvell.gb.spring.domain.dto.ProductRestDTO;
 import ru.darvell.gb.spring.exception.ShopException;
 import ru.darvell.gb.spring.service.ShopService;
 
@@ -29,15 +31,10 @@ public class ProductController {
 
     @GetMapping
     public String getProducts(Model model,
-                              @RequestParam Map<String, String> allRequestParams,
-                              @RequestParam(value = "pageNum", required = false) Integer pageNum) {
-        log.info("request params {}", allRequestParams);
+                              FilterProductRequest filterProductRequest) {
+        log.info("request params {}", filterProductRequest);
 
-        final int pageSize = 10;
-
-
-        Pageable pageRequest = PageRequest.of(pageNum == null ? 0 : pageNum, pageSize);
-        Page<ProductDTO> page = shopService.getAllProducts(allRequestParams, pageRequest);
+        Page<ProductRestDTO> page = shopService.getAllProductsPageable(filterProductRequest);
         model.addAttribute("page", page);
 
         int totalPages = page.getTotalPages();
@@ -48,7 +45,8 @@ public class ProductController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
-        model.addAttribute("filters", "ffff");
+
+        model.addAttribute("filter", filterProductRequest);
         model.addAttribute("categories", shopService.getAllCategories());
         return "products";
     }

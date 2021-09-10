@@ -28,4 +28,13 @@ public class ProductDTO {
             categoryName = that.getCategory().getTitle();
         }
     }
+
+    public ProductDTO(ProductDTO that) {
+        id = that.getId();
+        title = that.getTitle();
+        cost = that.getCost();
+        imageLink = that.getImageLink();
+        categoryId = that.getCategoryId();
+        categoryName = that.getCategoryName();
+    }
 }

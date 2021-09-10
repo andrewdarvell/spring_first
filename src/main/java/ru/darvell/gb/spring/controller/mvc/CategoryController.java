@@ -1,4 +1,4 @@
-package ru.darvell.gb.spring.controller;
+package ru.darvell.gb.spring.controller.mvc;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

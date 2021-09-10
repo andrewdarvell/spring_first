@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.darvell.gb.spring.domain.FilterProductRequest;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.repository.ProductRepository;
 import ru.darvell.gb.spring.service.ProductService;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -40,13 +40,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProductsFiltered(Map<String, String> filters) {
-        return productRepository.getAllProductsFiltered(filters);
-    }
-
-    @Override
-    public List<Product> getAllProductsFiltered(Map<String, String> filters, Pageable pageable) {
-        return productRepository.getAllProductsFiltered(filters, pageable);
+    public Page<Product> getAllProductsFiltered(FilterProductRequest filterProductRequest, Pageable pageable) {
+        return productRepository.getAllProductsFiltered(filterProductRequest, pageable);
     }
 
     @Override

@@ -44,7 +44,7 @@ class ProductControllerTest extends MVCTestConfig {
                 .cost(new BigDecimal("10.0"))
                 .build();
 
-        when(shopService.getAllProducts(Mockito.any())).thenReturn(Collections.singletonList(new ProductDTO(expectedProduct)));
+//        when(shopService.getAllProducts(Mockito.any())).thenReturn(Collections.singletonList(new ProductDTO(expectedProduct)));
         when(shopService.getProductByIdOrEmpty(1L)).thenReturn(new ProductDTO(expectedProduct));
         when(shopService.getAllCategories()).thenReturn(Collections.singletonList(new CategoryDTO(expectedCategory)));
     }
@@ -54,7 +54,7 @@ class ProductControllerTest extends MVCTestConfig {
     void getProductsReqShouldReturnProductPageWithDTOData() {
         Page page = Mockito.mock(Page.class);
         when(page.getTotalPages()).thenReturn(1);
-        when(shopService.getAllProducts(Mockito.any(), Mockito.any())).thenReturn(page);
+//        when(shopService.getAllProducts(Mockito.any(), Mockito.any())).thenReturn(page);
         mockMvc.perform(get("/product"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("products"))

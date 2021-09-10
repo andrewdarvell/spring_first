@@ -1,8 +1,12 @@
 package ru.darvell.gb.spring.repository.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import ru.darvell.gb.spring.domain.Category;
+import ru.darvell.gb.spring.domain.FilterProductRequest;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.repository.ProductRepositoryCustomSelector;
 
@@ -13,9 +17,6 @@ import javax.persistence.criteria.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static ru.darvell.gb.spring.util.ShopConstants.*;
 
 @Slf4j
 public class ProductRepositoryCustomSelectorImpl implements ProductRepositoryCustomSelector {
@@ -24,30 +25,10 @@ public class ProductRepositoryCustomSelectorImpl implements ProductRepositoryCus
     private EntityManager entityManager;
 
     @Override
-    public List<Product> getAllProductsFiltered(Map<String, String> filters) {
-        CriteriaQuery<Product> select = executeQuery(filters);
-
-        return entityManager.createQuery(select).getResultList();
-    }
-
-    @Override
-    public List<Product> getAllProductsFiltered(Map<String, String> filters, Pageable pageable) {
-
-
-        CriteriaQuery<Product> select = executeQuery(filters);
-
-        TypedQuery<Product> typedQuery = entityManager.createQuery(select);
-        typedQuery.setFirstResult(pageable.getPageNumber());
-        typedQuery.setMaxResults(pageable.getPageSize());
-
-        return typedQuery.getResultList();
-    }
-
-    private CriteriaQuery<Product> executeQuery(Map<String, String> filters) {
+    public Page<Product> getAllProductsFiltered(FilterProductRequest filterProductRequest, Pageable pageable) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
         Root<Product> productRoot = query.from(Product.class);
-
 
 
         List<Predicate> predicates = new ArrayList<>();
@@ -57,51 +38,47 @@ public class ProductRepositoryCustomSelectorImpl implements ProductRepositoryCus
         Path<Category> categoryPath = productRoot.get("category");
 
 
-        BigDecimal minCost = getDecimal(filters, KEY_MIN_COST_FILTER);
+        BigDecimal minCost = filterProductRequest.getMinCost();
         if (minCost != null) {
             predicates.add(criteriaBuilder.greaterThanOrEqualTo(costPath, minCost));
         }
 
-        BigDecimal maxCost = getDecimal(filters, KEY_MAX_COST_FILTER);
+        BigDecimal maxCost = filterProductRequest.getMaxCost();
         if (maxCost != null) {
             predicates.add(criteriaBuilder.lessThanOrEqualTo(costPath, maxCost));
         }
 
-        String title = filters.get(KEY_TITLE_FILTER);
+        String title = filterProductRequest.getTitle();
         if (title != null && !title.isBlank()) {
             predicates.add(criteriaBuilder.like(titlePath, "%" + title + "%"));
         }
 
-        Long categoryId = getLong(filters, KEY_CATEGORY_ID);
+        Long categoryId = filterProductRequest.getCategoryId();
         if (categoryId != null) {
             predicates.add(criteriaBuilder.equal(categoryPath, categoryId));
         }
 
-        return query.select(productRoot).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+        CriteriaQuery<Product> select = query.select(productRoot).where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+        if (filterProductRequest.getSortDirection() == Sort.Direction.DESC) {
+            select.orderBy(criteriaBuilder.desc(productRoot.get(filterProductRequest.getSortField())));
+        } else {
+            select.orderBy(criteriaBuilder.asc(productRoot.get(filterProductRequest.getSortField())));
+        }
+
+
+        TypedQuery<Product> typedQuery = entityManager.createQuery(select);
+
+        typedQuery.setFirstResult((int) pageable.getOffset());
+        typedQuery.setMaxResults(pageable.getPageSize());
+
+        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+        countQuery.select(criteriaBuilder.count(countQuery.from(Product.class)));
+        countQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+        Long count = entityManager.createQuery(countQuery).getSingleResult();
+
+
+        return new PageImpl<> (typedQuery.getResultList(), pageable, count);
     }
 
-    private BigDecimal getDecimal(Map<String, String> set, String key){
-        String rawVal = set.get(key);
-        if (rawVal != null) {
-            try {
-                return new BigDecimal(rawVal);
-            } catch (NumberFormatException e) {
-                log.debug("Cannot cast string to decimal", e);
-            }
-        }
-        return null;
-    }
-
-    private Long getLong(Map<String, String> set, String key){
-        String rawVal = set.get(key);
-        if (rawVal != null) {
-            try {
-                return Long.parseLong(rawVal);
-            } catch (NumberFormatException e) {
-                log.debug("Cannot cast string to long", e);
-            }
-        }
-        return null;
-    }
 
 }

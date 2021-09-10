@@ -20,6 +20,10 @@
 
     <h3><a th:href="@{/category}"><span>Категории</span></a></h3>
     <h3><a th:href="@{/product/form}"><span>Добавить продукт</span></a></h3>
+    <h3><a th:href="@{/cart/list}">
+        Корзина
+        <span th:if="${shoppingCart.getCount() > 0}" th:text="${shoppingCart.getCount()}"></span>
+    </a></h3>
 
 
     <h3>Фильтры</h3>
@@ -60,6 +64,7 @@
                 <h6 class="card-subtitle mb-2 text-muted" th:text="${p.categoryName}">Card subtitle</h6>
                 <h6 class="card-subtitle mb-2 text-muted" th:text="|Стоимость ${p.cost}|">Card subtitle</h6>
 
+                <a th:href="@{/cart/add-to-cart(id=${p.id})}" href="#" class="btn btn-primary mb-2">В корзину</a>
                 <a th:href="@{product/form(id=${p.id})}" href="#" class="btn btn-primary"><span>Изменить</span></a>
                 <a th:href="@{product/delete(id=${p.id})}" href="#" class="btn btn-primary"><span>Удалить</span></a>
             </div>

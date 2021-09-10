@@ -9,6 +9,7 @@ import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.FilterProductRequest;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
+import ru.darvell.gb.spring.domain.dto.CategoryWithChildsDTO;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
 import ru.darvell.gb.spring.domain.dto.ProductRestDTO;
 import ru.darvell.gb.spring.exception.ShopEntityNotFoundException;
@@ -23,7 +24,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ru.darvell.gb.spring.util.ShopConstants.*;
@@ -128,10 +128,67 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public Category saveOrUpdateCategory(CategoryDTO categoryDTO) throws ShopException {
+    public Category saveOrUpdateCategoryWithoutParent(CategoryDTO categoryDTO) throws ShopException {
         Category category = new Category(categoryDTO);
         checkShopEntity(category);
         return categoryService.saveOrUpdate(new Category(categoryDTO));
+    }
+
+    @Override
+    public CategoryDTO addCategory(CategoryDTO categoryDTO) throws ShopException {
+        categoryDTO.setId(null);
+        return new CategoryDTO(saveOrUpdateCategory(categoryDTO));
+    }
+
+    @Override
+    public CategoryDTO updateCategory(CategoryDTO categoryDTO) throws ShopException {
+        if (categoryDTO.getParentCategoryId().equals(categoryDTO.getId())) {
+            categoryDTO.setParentCategoryId(null);
+        }
+        categoryDTO.setId(getCategoryById(categoryDTO.getId()).getId());
+        return new CategoryDTO(saveOrUpdateCategory(categoryDTO));
+    }
+
+    private Category saveOrUpdateCategory(CategoryDTO categoryDTO) throws ShopException {
+        Category parentCategory = null;
+        if (categoryDTO.getParentCategoryId() != null) {
+            parentCategory = categoryService.findById(categoryDTO.getParentCategoryId())
+                    .orElseThrow(() -> new ShopEntityNotFoundException("Не найдена родительская категория с таким ID"));
+        }
+        Category category = new Category(categoryDTO);
+        category.setParentCategory(parentCategory);
+        checkShopEntity(category);
+        return categoryService.saveOrUpdate(category);
+    }
+
+    @Override
+    public void deleteCategory(Long categoryId) throws ShopEntityNotFoundException {
+        Category category = getCategoryById(categoryId);
+        categoryService.delete(category);
+    }
+
+    @Override
+    public CategoryDTO getCategoryDTOById(Long categoryId) throws ShopEntityNotFoundException {
+        return new CategoryDTO(getCategoryById(categoryId));
+    }
+
+    @Override
+    public List<CategoryWithChildsDTO> getAllCategoryTrees() {
+        return categoryService.getAllWithoutParents().stream().map(this::convertToCategoryWithChildNode).collect(Collectors.toList());
+    }
+
+    public CategoryWithChildsDTO convertToCategoryWithChildNode(Category category) {
+        CategoryWithChildsDTO categoryDTO = new CategoryWithChildsDTO(category.getId(), category.getTitle());
+        if (!category.getSubCategories().isEmpty()) {
+            category.getSubCategories().forEach(
+                    c -> categoryDTO.getChilds().add(convertToCategoryWithChildNode(c))
+            );
+        }
+        return categoryDTO;
+    }
+
+    private Category getCategoryById(Long categoryId) throws ShopEntityNotFoundException {
+        return categoryService.findById(categoryId).orElseThrow(() -> new ShopEntityNotFoundException("Не найдена категория с таким ID"));
     }
 
     private ProductRestDTO updateUploadImageLink(ProductRestDTO productRestDTO) {

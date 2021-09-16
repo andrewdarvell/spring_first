@@ -18,8 +18,9 @@
 
 <div class="container">
 
-    <h3><a th:href="@{/category}"><span>Категории</span></a></h3>
-    <h3><a th:href="@{/product/form}"><span>Добавить продукт</span></a></h3>
+    <h3><a th:href="@{/login}"><span>Авторизоваться</span></a></h3>
+    <h3><a sec:authorize="hasAnyRole('ADMIN', 'MANAGER')" th:href="@{/category}"><span>Категории</span></a></h3>
+    <h3><a sec:authorize="hasAnyRole('ADMIN', 'MANAGER')" th:href="@{/product/form}"><span>Добавить продукт</span></a></h3>
     <h3><a th:href="@{/cart/list}">
         Корзина
         <span th:if="${shoppingCart.getCount() > 0}" th:text="${shoppingCart.getCount()}"></span>

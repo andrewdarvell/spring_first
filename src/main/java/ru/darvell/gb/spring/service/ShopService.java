@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.FilterProductRequest;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
+import ru.darvell.gb.spring.domain.dto.CategoryWithChildsDTO;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
 import ru.darvell.gb.spring.domain.dto.ProductRestDTO;
 import ru.darvell.gb.spring.exception.ShopEntityNotFoundException;
@@ -26,5 +27,10 @@ public interface ShopService {
     void deleteProductByID(Long productId);
 
     List<CategoryDTO> getAllCategories();
-    Category saveOrUpdateCategory(CategoryDTO categoryDTO) throws ShopException;
+    Category saveOrUpdateCategoryWithoutParent(CategoryDTO categoryDTO) throws ShopException;
+    CategoryDTO addCategory(CategoryDTO categoryDTO) throws ShopEntityNotFoundException;
+    CategoryDTO updateCategory(CategoryDTO categoryDTO) throws ShopEntityNotFoundException;
+    void deleteCategory(Long categoryId) throws ShopEntityNotFoundException;
+    CategoryDTO getCategoryDTOById(Long categoryId) throws ShopEntityNotFoundException;
+    List<CategoryWithChildsDTO> getAllCategoryTrees();
 }

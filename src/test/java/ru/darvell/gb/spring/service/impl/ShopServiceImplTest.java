@@ -90,7 +90,7 @@ class ShopServiceImplTest extends MVCTestConfig {
     void shouldSaveCategoryValidateData() {
         expectedCategory.setTitle(null);
         CategoryDTO categoryDTO = new CategoryDTO(expectedCategory);
-        Assertions.assertThrows(ShopException.class, () -> shopService.saveOrUpdateCategory(categoryDTO));
+        Assertions.assertThrows(ShopException.class, () -> shopService.saveOrUpdateCategoryWithoutParent(categoryDTO));
     }
 
     @Test

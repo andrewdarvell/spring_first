@@ -1,12 +1,11 @@
 package ru.darvell.gb.spring.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,7 +21,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Column(name = "title")
     @NotBlank(message = "Имя категории обязательно")
@@ -30,15 +29,16 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     @ToString.Exclude
-    private List<Product> products;
+    private Set<Product> products;
 
-    @Column(name="parent_category_id")
-    private Long parentId;
+    @ManyToOne
+    @JoinColumn(name = "parent_category_id")
+    private Category parentCategory;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="parent_category_id")
+    @JsonIgnore
+    @OneToMany(mappedBy = "parentCategory")
     @ToString.Exclude
-    private Set<Category> childCategories;
+    private Set<Category> subCategories;
 
     public Category(CategoryDTO that) {
         id = that.getId();

@@ -28,7 +28,7 @@ public class CategoryController {
     @PostMapping
     public String addCategory(@ModelAttribute CategoryDTO categoryDTO, Model model) {
         try {
-            shopService.saveOrUpdateCategory(categoryDTO);
+            shopService.saveOrUpdateCategoryWithoutParent(categoryDTO);
         } catch (ShopException e) {
             prepareModelForForm(model, categoryDTO, e.getMessage());
             return "categories";

@@ -16,39 +16,39 @@ import static ru.darvell.gb.spring.util.ShopConstants.PRODUCT_URL;
 import static ru.darvell.gb.spring.util.ShopConstants.REST_URL_V1;
 
 @RestController("restProductController")
-@RequestMapping(REST_URL_V1)
+@RequestMapping(REST_URL_V1 + PRODUCT_URL)
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ShopService shopService;
 
-    @GetMapping(PRODUCT_URL + "/{productId}")
+    @GetMapping("/{productId}")
     public ProductRestDTO getProduct(@PathVariable(name = "productId") Long productId) {
         return shopService.getProductByIdForRest(productId);
     }
 
-    @PostMapping(PRODUCT_URL + "/list")
+    @PostMapping("/list")
     public Page<ProductRestDTO> getProducts(@RequestBody FilterProductRequest filterProductRequest) {
         return shopService.getAllProductsPageable(filterProductRequest);
     }
 
-    @PostMapping(PRODUCT_URL)
+    @PostMapping()
     public ResponseEntity<ProductRestDTO> addProduct(@RequestBody ProductRestDTO productRestDTO) {
        return ResponseEntity.ok(shopService.saveProduct(productRestDTO));
 
     }
 
-    @PutMapping(PRODUCT_URL)
+    @PutMapping()
     public ProductRestDTO updateProduct(@RequestBody ProductRestDTO productRestDTO) {
         return shopService.updateProduct(productRestDTO);
     }
 
-    @DeleteMapping(PRODUCT_URL + "/{productId}")
+    @DeleteMapping("/{productId}")
     public void deleteProduct(@PathVariable(name = "productId") Long productId) {
         shopService.deleteProductByID(productId);
     }
 
-    @PostMapping(PRODUCT_URL + "/{productId}/image")
+    @PostMapping("/{productId}/image")
     public ResponseEntity<Void> uploadProductImage(@PathVariable(name = "productId") Long productId,
                                                    @RequestParam(value = "image", required = false) MultipartFile image) {
         shopService.addImageToProduct(productId, image);

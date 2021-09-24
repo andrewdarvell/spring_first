@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.FilterProductRequest;
@@ -19,14 +20,13 @@ import ru.darvell.gb.spring.service.ProductService;
 import ru.darvell.gb.spring.service.ShopService;
 import ru.darvell.gb.spring.util.FileUtils;
 
-import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.darvell.gb.spring.util.ShopConstants.*;
+import static ru.darvell.gb.spring.util.ShopConstants.IMAGE_UPLOAD_LINK_PATTERN_V1;
 
 @Service
 @RequiredArgsConstructor
@@ -86,7 +86,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    @Transactional(rollbackOn = Throwable.class)
+    @Transactional(rollbackFor = Throwable.class)
     public ProductDTO saveWithImage(ProductDTO productDTO, MultipartFile image) {
         if (image != null && !image.isEmpty()) {
             Path pathImage = FileUtils.saveProductImage(image);
@@ -96,7 +96,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    @Transactional(rollbackOn = Throwable.class)
+    @Transactional(rollbackFor = Throwable.class)
     public void addImageToProduct(Long productId, MultipartFile image) {
         saveWithImage(getProductByIdForRest(productId), image);
     }

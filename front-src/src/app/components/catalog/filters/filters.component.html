@@ -1,0 +1,24 @@
+<div class="container">
+    <mat-card>
+        <mat-card-title>Фильтр</mat-card-title>
+        <mat-card-content>
+            <form [formGroup]="filterForm" (ngSubmit)="doFilter()" autocomplete="off">
+                <mat-form-field appearance="outline">
+                    <mat-label>Минимальная стоимость</mat-label>
+                    <input matInput placeholder="Минимальная стоимость" formControlName="minCost">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Максимальная стоимость</mat-label>
+                    <input matInput placeholder="Максимальная стоимость" formControlName="maxCost">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Название</mat-label>
+                    <input matInput placeholder="Название" formControlName="title">
+                </mat-form-field>
+                <button mat-raised-button color="primary" type="submit">Искать</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

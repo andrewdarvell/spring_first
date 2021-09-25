@@ -1,0 +1,20 @@
+<div class="container">
+    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+        <mat-card *cdkVirtualFor="let i of [].constructor(20)" class="example-card">
+            <mat-card-title-group>
+                <mat-card-title>Shiba Inu</mat-card-title>
+                <mat-card-subtitle>Small</mat-card-subtitle>
+                <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg">
+            </mat-card-title-group>
+            <mat-card-content>
+                Есть много вариантов Lorem Ipsum, но большинство из них имеет не всегда приемлемые модификации,
+                например, юмористические вставки или слова, которые даже отдалённо не напоминают латынь. Если вам нужен
+                Lorem Ipsum для серьёзного проекта, вы наверняка не хотите какой-нибудь шутки, скрытой в середине
+                абзаца.
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="submit">В корзину</button>
+            </mat-card-actions>
+        </mat-card>
+    </cdk-virtual-scroll-viewport>
+</div>

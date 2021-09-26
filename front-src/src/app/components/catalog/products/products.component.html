@@ -1,20 +1,18 @@
 <div class="container">
-    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-        <mat-card *cdkVirtualFor="let i of [].constructor(20)" class="example-card">
-            <mat-card-title-group>
-                <mat-card-title>Shiba Inu</mat-card-title>
-                <mat-card-subtitle>Small</mat-card-subtitle>
-                <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg">
-            </mat-card-title-group>
-            <mat-card-content>
-                Есть много вариантов Lorem Ipsum, но большинство из них имеет не всегда приемлемые модификации,
-                например, юмористические вставки или слова, которые даже отдалённо не напоминают латынь. Если вам нужен
-                Lorem Ipsum для серьёзного проекта, вы наверняка не хотите какой-нибудь шутки, скрытой в середине
-                абзаца.
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-raised-button color="primary" type="submit">В корзину</button>
-            </mat-card-actions>
-        </mat-card>
-    </cdk-virtual-scroll-viewport>
+  <mat-card *ngFor="let product of products">
+    <mat-card-title-group>
+      <mat-card-title>{{product.title}}</mat-card-title>
+      <mat-card-subtitle>{{product.cost}}</mat-card-subtitle>
+      <img mat-card-md-image src="{{getProductImageLink(product.imageLink || '')}}">
+    </mat-card-title-group>
+    <mat-card-content>
+      <p>{{product.categoryName}}</p>
+      <p>Есть много вариантов Lorem Ipsum, но большинство из них имеет не всегда приемлемые модификации,
+        например, юмористические вставки или слова, которые даже отдалённо не напоминают латынь. Если в</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">В корзину</button>
+      <button mat-raised-button color="accent" (click)="onEdit(product.id)">Редактировать</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

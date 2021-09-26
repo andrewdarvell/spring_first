@@ -35,6 +35,16 @@ public class UserServiceImpl implements UserService {
         return shopUserRepository.findShopUserByLogin(login);
     }
 
+    public Optional<ShopUser> getUserByCredentials(String userName, String password) {
+        return shopUserRepository
+                .findShopUserByLogin(userName)
+                .flatMap(user -> checkPassword(user, password));
+    }
+
+    private Optional<ShopUser> checkPassword(ShopUser user, String password) {
+        return new BCryptPasswordEncoder().matches(password, user.getPassword()) ? Optional.of(user) : Optional.empty();
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
@@ -71,5 +81,10 @@ public class UserServiceImpl implements UserService {
         ShopUser shopUser = shopUserRepository.findById(userId).orElseThrow(() -> new ShopException("Пользователь не найден"));
         shopUser.setEnabled(enabled);
         shopUserRepository.saveAndFlush(shopUser);
+    }
+
+    @Override
+    public Optional<ShopUser> findById(long id) {
+        return shopUserRepository.findById(id);
     }
 }

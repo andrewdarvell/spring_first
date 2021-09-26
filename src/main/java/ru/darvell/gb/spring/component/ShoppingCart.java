@@ -1,7 +1,6 @@
 package ru.darvell.gb.spring.component;
 
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.domain.nonpersist.ShoppingCartEntry;
 
@@ -9,7 +8,6 @@ import java.util.*;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-@Component
 @NoArgsConstructor
 public class ShoppingCart {
 

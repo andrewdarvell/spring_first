@@ -1,4 +1,18 @@
 <mat-toolbar color="primary" class="mat-elevation-z2">
-    <span>Магазин барахла</span>
+  <span>Магазин барахла</span>
+  <span>
+    <button class="all-product-btn" mat-menu-item routerLink="/app/catalog">Все товары</button>
+  </span>
+  <span class="toolbar_spacer"></span>
+  <span>
+    <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">Админка</button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/app/admin/category">Категории</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  </span>
+
+  <button mat-button routerLink="/app/auth">LogIn</button>
 </mat-toolbar>
 

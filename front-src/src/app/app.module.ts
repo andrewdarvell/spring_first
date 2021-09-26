@@ -11,6 +11,11 @@ import {CatalogComponent} from "./components/catalog/catalog.component";
 import {ProductsAllComponent} from "./components/catalog/products/products.component";
 import {FiltersComponent} from "./components/catalog/filters/filters.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {CategoryEditorComponent} from './components/admin/category/category-editor.component';
+import {AuthComponent} from './components/users/auth/auth.component';
+import {AuthenticationInterceptor} from './interceptors/auth_interceptor';
+import {ProductEditorComponent} from './components/admin/product/product-editor.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +23,10 @@ import {ReactiveFormsModule} from "@angular/forms";
     HeaderComponent,
     CatalogComponent,
     ProductsAllComponent,
-    FiltersComponent
+    FiltersComponent,
+    CategoryEditorComponent,
+    AuthComponent,
+    ProductEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -26,9 +34,10 @@ import {ReactiveFormsModule} from "@angular/forms";
     BrowserAnimationsModule,
     MatToolbarModule,
     MyOwnCustomMaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

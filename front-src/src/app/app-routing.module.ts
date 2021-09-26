@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {CatalogComponent} from "./components/catalog/catalog.component";
+import {CategoryEditorComponent} from './components/admin/category/category-editor.component';
+import {AuthComponent} from './components/users/auth/auth.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'app/catalog', pathMatch: 'full'},
-  // {path: 'login', component: LoginPageComponent},
-  // {path: 'register', component: RegisterPageComponent},
   {path: "app", children:[
-      {path: "catalog", component: CatalogComponent}
+      {path: "auth", component: AuthComponent},
+      {path: "catalog", component: CatalogComponent},
+      {path: "admin", children: [
+          {path: "category", component: CategoryEditorComponent}
+        ]},
     ]
   }
 ];

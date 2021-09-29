@@ -77,7 +77,7 @@ public class ShopServiceImpl implements ShopService {
         Pageable pageable = generatePageable(filterProductRequest);
 
         Page<Product> products = productService.getAllProductsFiltered(filterProductRequest, pageable);
-        return new PageImpl<>(products.stream().map(ProductRestDTO::new).collect(Collectors.toList()), pageable, products.getTotalElements());
+        return new PageImpl<>(products.stream().map(ProductRestDTO::new).map(this::updateUploadImageLink).collect(Collectors.toList()), pageable, products.getTotalElements());
     }
 
     private Pageable generatePageable(FilterProductRequest filterProductRequest) {
@@ -105,8 +105,8 @@ public class ShopServiceImpl implements ShopService {
     public ProductRestDTO saveProduct(ProductRestDTO productRestDTO) throws ShopEntityNotFoundException {
         productRestDTO.setSaveImageLink(null);
         productRestDTO.setId(null);
-        return updateProduct(productRestDTO);
-
+        productRestDTO = new ProductRestDTO(saveOrUpdateProduct(productRestDTO));
+        return updateUploadImageLink(productRestDTO);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public CategoryDTO updateCategory(CategoryDTO categoryDTO) throws ShopException {
-        if (categoryDTO.getParentCategoryId().equals(categoryDTO.getId())) {
+        if (categoryDTO.getParentCategoryId() != null && categoryDTO.getParentCategoryId().equals(categoryDTO.getId())) {
             categoryDTO.setParentCategoryId(null);
         }
         categoryDTO.setId(getCategoryById(categoryDTO.getId()).getId());

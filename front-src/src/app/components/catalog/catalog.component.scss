@@ -1,0 +1,36 @@
+.catalog-container {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+}
+.filter-products-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.paginator {
+  position: sticky;
+  top: 64px;
+  z-index: 1;
+}
+
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+
+app-all-products {
+  width: 75%;
+  margin-top: 10px;
+}
+
+
+
+

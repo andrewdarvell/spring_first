@@ -1,0 +1,27 @@
+<div class="content-width catalog-container">
+  <div class="paginator mat-elevation-z2">
+    <mat-paginator [length]=productListResponse.totalElements
+                   [pageSize]=productListResponse.pageable.pageSize
+                   [pageIndex]=filterRequest.currPage
+                   [pageSizeOptions]="[5, 10]"
+                   (page)=pageEventEmit($event)
+                   aria-label="Select page">
+    </mat-paginator>
+
+    <app-product-editor
+      [product]="productToEdit"
+      (resultProductEvent)="productUpdated($event)"
+    ></app-product-editor>
+
+  </div>
+
+  <div class="filter-products-container">
+    <div class="filters-container">
+      <app-product-filters (processFilterAction)="doFiltering($event)"></app-product-filters>
+    </div>
+    <app-all-products
+      [products]="productListResponse.content"
+      (onEditAction)="onEditProduct($event)"
+    ></app-all-products>
+  </div>
+</div>

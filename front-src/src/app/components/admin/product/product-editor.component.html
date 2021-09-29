@@ -1,0 +1,50 @@
+<mat-expansion-panel hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Редактор продуктов
+    </mat-panel-title>
+    <mat-panel-description>
+      Нажмите, чтобы развернуть
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <div class="editor-container">
+    <div>
+      <button mat-raised-button color="primary" (click)="initNew()" style="margin-bottom: 10px">Создать новый</button>
+      <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+        <span *ngIf="isEditMode()">Редактирование</span>
+        <mat-form-field appearance="outline">
+          <mat-label>Наименование</mat-label>
+          <input matInput formControlName="title" placeholder="Наименование">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Стоимость</mat-label>
+          <input matInput formControlName="cost" placeholder="Стоимость">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Категория</mat-label>
+          <mat-select formControlName="categoryId">
+            <mat-option *ngFor="let category of categories" [value]="category.id">
+              {{category.title}}
+            </mat-option>
+          </mat-select>
+
+        </mat-form-field>
+        <button mat-raised-button color="accent" type="submit" style="margin-bottom: 10px">Сохранить</button>
+      </form>
+      <button mat-button color="accent" (click)="cancel()">Отменить</button>
+    </div>
+    <div class="image-editor-container">
+      <!--      <img src="{{getProductImageLink(product.imageLink || '')}}">-->
+      <div *ngIf="isEditMode()">
+        <input class="form-control" type="file" (change)="onChange($event)">
+        <button mat-button color="accent" (click)="uploadImage()">Обновить изображение</button>
+      </div>
+
+    </div>
+  </div>
+
+
+</mat-expansion-panel>

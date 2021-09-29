@@ -1,0 +1,40 @@
+<div class="content-width">
+  <h4>Редактирование</h4>
+  <div>
+    <form [formGroup]="categoryForm">
+      <mat-form-field  appearance="outline">
+        <mat-label>Наименование</mat-label>
+        <input matInput formControlName="title" placeholder="Наименование">
+      </mat-form-field>
+      <button mat-button color="primary" type="submit" (click)="save()">Сохранить</button>
+      <button mat-button color="accent" type="submit" (click)="reset()">Отменить</button>
+    </form>
+  </div>
+
+
+  <div class="category-list">
+    <table mat-table [dataSource]="categories"  class="mat-elevation-z8">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> id</th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Название</th>
+        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Дайствия</th>
+        <td mat-cell *matCellDef="let element">
+          <span class="edit-btn"><button mat-button color="accent" type="submit" (click)="choose(element.id)">Редактировать</button></span>
+          <span><button mat-button color="warn" type="submit" (click)="delete(element.id)">Удалить</button></span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+    </table>
+  </div>
+</div>

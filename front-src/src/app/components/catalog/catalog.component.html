@@ -8,7 +8,7 @@
                    aria-label="Select page">
     </mat-paginator>
 
-    <app-product-editor
+    <app-product-editor *ngIf="hasAdminRole$ | async"
       [product]="productToEdit"
       (resultProductEvent)="productUpdated($event)"
     ></app-product-editor>

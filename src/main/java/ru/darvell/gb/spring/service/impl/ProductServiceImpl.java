@@ -28,7 +28,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll(pageable);
     }
 
-
     @Override
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);

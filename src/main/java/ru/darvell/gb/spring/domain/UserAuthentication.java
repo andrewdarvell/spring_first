@@ -35,6 +35,10 @@ public class UserAuthentication implements Authentication {
         return user;
     }
 
+    public ShopUser getUser() {
+        return (ShopUser) getPrincipal();
+    }
+
     @Override
     public boolean isAuthenticated() {
         return authenticated;

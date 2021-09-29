@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-card *ngFor="let product of products">
+  <mat-card *ngFor="let product of products" >
     <mat-card-title-group>
       <mat-card-title>{{product.title}}</mat-card-title>
       <mat-card-subtitle>{{product.cost}}</mat-card-subtitle>
@@ -12,7 +12,7 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary" type="submit">В корзину</button>
-      <button mat-raised-button color="accent" (click)="onEdit(product.id)">Редактировать</button>
+      <button mat-raised-button color="accent"  *ngIf="hasAdminRole$ | async"  (click)="onEdit(product.id)">Редактировать</button>
     </mat-card-actions>
   </mat-card>
 </div>

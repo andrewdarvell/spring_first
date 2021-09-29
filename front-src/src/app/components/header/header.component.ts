@@ -1,4 +1,7 @@
 import {Component} from "@angular/core";
+import {Select} from "@ngxs/store";
+import {UserState} from "../../store/states/user.state";
+import {Observable} from "rxjs";
 
 @Component({
     selector: "app-header",
@@ -6,5 +9,8 @@ import {Component} from "@angular/core";
     styleUrls: ["header.component.scss"]
 })
 export class HeaderComponent {
+
+    @Select(UserState.hasAdminRole) hasAdminRole$: Observable<boolean> | undefined;
+
 
 }

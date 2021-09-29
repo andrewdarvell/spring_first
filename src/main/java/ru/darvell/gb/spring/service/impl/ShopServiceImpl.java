@@ -6,6 +6,8 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import ru.darvell.gb.spring.annotation.ExecutionTimeLogger;
+import ru.darvell.gb.spring.annotation.MethodRunLogger;
 import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.FilterProductRequest;
 import ru.darvell.gb.spring.domain.Product;
@@ -60,6 +62,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    @ExecutionTimeLogger
     public ProductRestDTO getProductByIdForRest(Long productId) throws ShopEntityNotFoundException {
         ProductRestDTO productRestDTO = new ProductRestDTO(productService.findById(productId)
                 .orElseThrow(() -> new ShopEntityNotFoundException("Продукт не найден")));
@@ -67,6 +70,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    @ExecutionTimeLogger
+    @MethodRunLogger
     public Page<ProductRestDTO> getAllProductsPageable(FilterProductRequest filterProductRequest) {
 
         if (filterProductRequest.getCategoryTitle() != null && !filterProductRequest.getCategoryTitle().isBlank()) {
@@ -123,6 +128,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    @ExecutionTimeLogger
     public List<CategoryDTO> getAllCategories() {
         return categoryService.getAll().stream().map(CategoryDTO::new).collect(Collectors.toList());
     }
@@ -173,6 +179,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    @ExecutionTimeLogger
     public List<CategoryWithChildsDTO> getAllCategoryTrees() {
         return categoryService.getAllWithoutParents().stream().map(this::convertToCategoryWithChildNode).collect(Collectors.toList());
     }

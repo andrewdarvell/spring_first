@@ -11,4 +11,5 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> , ProductRepositoryCustomSelector{
 
     List<Product> findAllByCategory(Category category);
+    List<Product> findAllByIdIn(List<Long> ids);
 }

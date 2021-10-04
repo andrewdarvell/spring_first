@@ -11,7 +11,7 @@
         например, юмористические вставки или слова, которые даже отдалённо не напоминают латынь. Если в</p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit">В корзину</button>
+      <button mat-raised-button color="primary" type="submit" (click)="addToCart(product.id)">В корзину</button>
       <button mat-raised-button color="accent"  *ngIf="hasAdminRole$ | async"  (click)="onEdit(product.id)">Редактировать</button>
     </mat-card-actions>
   </mat-card>

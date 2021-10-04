@@ -4,10 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.FilterProductRequest;
-import ru.darvell.gb.spring.domain.dto.CategoryDTO;
-import ru.darvell.gb.spring.domain.dto.CategoryWithChildsDTO;
-import ru.darvell.gb.spring.domain.dto.ProductDTO;
-import ru.darvell.gb.spring.domain.dto.ProductRestDTO;
+import ru.darvell.gb.spring.domain.dto.*;
 import ru.darvell.gb.spring.exception.ShopEntityNotFoundException;
 import ru.darvell.gb.spring.exception.ShopException;
 
@@ -23,6 +20,8 @@ public interface ShopService {
     ProductDTO getProductByIdOrEmpty(Long productId);
     ProductRestDTO getProductByIdForRest(Long productId) throws ShopEntityNotFoundException;
     Page<ProductRestDTO> getAllProductsPageable(FilterProductRequest filterProductRequest);
+
+    ProductsCostDTO getProductsCost(List<Long> productIds);
 
     void deleteProductByID(Long productId);
 

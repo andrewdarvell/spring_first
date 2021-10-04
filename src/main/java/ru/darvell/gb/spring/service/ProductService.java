@@ -12,6 +12,7 @@ public interface ProductService {
 
     List<Product> getAll();
     Page<Product> getAll(Pageable pageable);
+    List<Product> getAllByIds(List<Long> ids);
     Optional<Product> findById(Long id);
     Product saveOrUpdate(Product product);
     Page<Product> getAllProductsFiltered(FilterProductRequest filterProductRequest, Pageable pageable);

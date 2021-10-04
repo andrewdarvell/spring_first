@@ -11,10 +11,7 @@ import ru.darvell.gb.spring.annotation.MethodRunLogger;
 import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.FilterProductRequest;
 import ru.darvell.gb.spring.domain.Product;
-import ru.darvell.gb.spring.domain.dto.CategoryDTO;
-import ru.darvell.gb.spring.domain.dto.CategoryWithChildsDTO;
-import ru.darvell.gb.spring.domain.dto.ProductDTO;
-import ru.darvell.gb.spring.domain.dto.ProductRestDTO;
+import ru.darvell.gb.spring.domain.dto.*;
 import ru.darvell.gb.spring.exception.ShopEntityNotFoundException;
 import ru.darvell.gb.spring.exception.ShopException;
 import ru.darvell.gb.spring.service.CategoryService;
@@ -83,6 +80,13 @@ public class ShopServiceImpl implements ShopService {
 
         Page<Product> products = productService.getAllProductsFiltered(filterProductRequest, pageable);
         return new PageImpl<>(products.stream().map(ProductRestDTO::new).map(this::updateUploadImageLink).collect(Collectors.toList()), pageable, products.getTotalElements());
+    }
+
+    @Override
+    public ProductsCostDTO getProductsCost(List<Long> productIds) {
+        ProductsCostDTO result = new ProductsCostDTO();
+        productService.getAllByIds(productIds).forEach(p -> result.addProductCost(p.getId(), p.getCost()));
+        return result;
     }
 
     private Pageable generatePageable(FilterProductRequest filterProductRequest) {

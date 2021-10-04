@@ -3,6 +3,9 @@ import {UserShopService} from '../../service/user-shop.service';
 import {FilterProductRequest, Product, ProductListResponse} from '../../model/user-shop';
 import {FilteringProductData} from './filters/filters.component';
 import {PageEvent} from '@angular/material/paginator';
+import {Select} from "@ngxs/store";
+import {UserState} from "../../store/states/user.state";
+import {Observable} from "rxjs";
 
 @Component({
   selector: "app-catalog",
@@ -10,6 +13,8 @@ import {PageEvent} from '@angular/material/paginator';
   styleUrls: ["catalog.component.scss"]
 })
 export class CatalogComponent implements OnInit {
+
+  @Select(UserState.hasAdminRole) hasAdminRole$: Observable<boolean> | undefined;
 
   public productListResponse = {pageable:{pageSize:5}} as ProductListResponse;
   public filterRequest = {} as FilterProductRequest;

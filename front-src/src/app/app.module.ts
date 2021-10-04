@@ -16,6 +16,9 @@ import {CategoryEditorComponent} from './components/admin/category/category-edit
 import {AuthComponent} from './components/users/auth/auth.component';
 import {AuthenticationInterceptor} from './interceptors/auth_interceptor';
 import {ProductEditorComponent} from './components/admin/product/product-editor.component';
+import {NgxsModule} from "@ngxs/store";
+import {environment} from "../environments/environment";
+import {UserState} from "./store/states/user.state";
 
 @NgModule({
   declarations: [
@@ -29,6 +32,9 @@ import {ProductEditorComponent} from './components/admin/product/product-editor.
     ProductEditorComponent
   ],
   imports: [
+    NgxsModule.forRoot([UserState], {
+      developmentMode: !environment.production
+    }),
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

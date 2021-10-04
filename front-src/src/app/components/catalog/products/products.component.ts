@@ -1,6 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {Product} from '../../../model/user-shop';
 import {environment} from '../../../../environments/environment';
+import {Select} from "@ngxs/store";
+import {UserState} from "../../../store/states/user.state";
+import {Observable} from "rxjs";
 
 @Component({
   selector: "app-all-products",
@@ -8,6 +11,8 @@ import {environment} from '../../../../environments/environment';
   styleUrls: ["products.component.scss"]
 })
 export class ProductsAllComponent {
+
+  @Select(UserState.hasAdminRole) hasAdminRole$: Observable<boolean> | undefined;
 
   @Input()
   public products: Product[] = [];

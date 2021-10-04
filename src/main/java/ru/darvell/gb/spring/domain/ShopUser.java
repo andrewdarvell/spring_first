@@ -34,7 +34,7 @@ public class ShopUser implements Serializable {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "shop_user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

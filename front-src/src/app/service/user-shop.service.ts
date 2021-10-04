@@ -32,4 +32,8 @@ export class UserShopService {
     return this.http.post<LoginResponse>(`${environment.apiEndpoint}${user_prefix}/auth`, formData);
   }
 
+  public getRoles(): Observable<string[]> {
+    return this.http.get<string[]>(`${environment.apiEndpoint}${user_prefix}/roles`);
+  }
+
 }

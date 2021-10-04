@@ -5,8 +5,7 @@
   </span>
   <span class="toolbar_spacer"></span>
   <span>
-    <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">Админка</button>
-
+    <button *ngIf="hasAdminRole$ | async" mat-raised-button color="accent" [matMenuTriggerFor]="menu">Админка</button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item routerLink="/app/admin/category">Категории</button>
       <button mat-menu-item>Item 2</button>

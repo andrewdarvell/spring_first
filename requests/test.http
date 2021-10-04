@@ -55,7 +55,7 @@ POST http://localhost:8080/api/v1/category
 Content-Type: application/json
 
 {
-  "title" : "Десятая",
+  "title": "Десятая",
   "parentCategoryId": 20
 }
 
@@ -65,7 +65,7 @@ Content-Type: application/json
 
 {
   "id": 17,
-  "title" : "Восьмаяяяяя",
+  "title": "Восьмаяяяяя",
   "parentCategoryId": 17
 }
 
@@ -83,3 +83,38 @@ POST http://localhost:8080/api/v1/user/auth
 Content-Type: application/x-www-form-urlencoded
 
 login=user&password=1
+
+
+###
+#SOAP
+
+GET http://localhost:8080/ws/categories.wsdl
+
+###
+
+GET http://localhost:8080/ws/products.wsdl
+
+###
+
+POST http://localhost:8080/ws
+Content-Type: text/xml; charset=utf-8
+
+<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/"
+            xmlns:gre="http://www.darvell.ru/spring/ws/categories">
+    <x:Header/>
+    <x:Body>
+        <gre:getAllCategoriesFlatRequest/>
+    </x:Body>
+</x:Envelope>
+
+###
+POST http://localhost:8080/ws
+Content-Type: text/xml; charset=utf-8
+
+<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/"
+            xmlns:gre="http://www.darvell.ru/spring/ws/products">
+    <x:Header/>
+    <x:Body>
+        <gre:getAllProductsRequest/>
+    </x:Body>
+</x:Envelope>

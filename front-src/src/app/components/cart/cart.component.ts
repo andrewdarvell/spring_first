@@ -3,6 +3,7 @@ import {Select, Store} from "@ngxs/store";
 import {Observable} from "rxjs";
 import {CartItem, CartState} from "../../store/states/cart.state";
 import {UserShopService} from "../../service/user-shop.service";
+import {UpdateCost} from "../../store/actions/cart.actions";
 
 @Component({
     selector: "app-cart",
@@ -12,6 +13,7 @@ import {UserShopService} from "../../service/user-shop.service";
 export class CartComponent implements OnInit {
 
     @Select(CartState.cartItems) cartItems$!: Observable<CartItem[]>;
+    columnsToDisplay = ['title', 'cost', 'count'];
 
     constructor(private store: Store,
                 private userShopService: UserShopService) {
@@ -22,7 +24,7 @@ export class CartComponent implements OnInit {
         this.cartItems$.subscribe(ci => {
             const arr = ci.map(i => i.productId);
             this.userShopService.getActualCosts(arr).subscribe(resp =>
-                console.log(resp)
+                this.store.dispatch(new UpdateCost(resp))
             )
         });
     }

@@ -1,0 +1,123 @@
+plugins {
+    id "org.springframework.boot" version "2.4.11"
+    id 'java'
+}
+
+group = 'ru.darvell.gb.spring'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+
+subprojects {
+
+    repositories {
+        mavenCentral()
+    }
+
+
+
+
+    group = 'ru.darvell.gb.spring'
+    version = '0.0.1'
+
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java-library'
+    apply plugin: "org.springframework.boot"
+
+
+
+    ext {
+        set('springCloudVersion', "2020.0.3")
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    }
+
+
+}
+project(":config_server") {
+
+    bootJar {
+        enabled = false
+    }
+
+    jar {
+        enabled = true
+    }
+    dependencies {
+        implementation 'org.springframework.cloud:spring-cloud-config-server'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.2.9.RELEASE'
+
+
+    }
+}
+
+project(":shop_service") {
+
+    bootJar {
+        enabled = false
+    }
+
+    jar {
+        enabled = true
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+        implementation 'org.flywaydb:flyway-core:7.15.0'
+
+        implementation 'org.postgresql:postgresql:42.2.23'
+        testImplementation 'org.mockito:mockito-inline:3.11.2'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.boot:spring-boot-starter-aop'
+        implementation 'org.springframework.boot:spring-boot-starter-web-services'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
+        implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+
+        implementation 'com.google.guava:guava:30.1.1-jre'
+        implementation 'wsdl4j:wsdl4j:1.6.3'
+        implementation 'org.springframework.cloud:spring-cloud-starter-config:3.0.5'
+        implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.4'
+
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.2.9.RELEASE'
+
+    }
+}
+project(":uereka_gateway_service") {
+
+    version = '0.0.1'
+
+    bootJar {
+        launchScript()
+    }
+
+    dependencies {
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:2.2.9.RELEASE'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul:2.2.9.RELEASE'
+
+
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

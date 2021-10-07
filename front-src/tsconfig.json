@@ -4,7 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
 //    "outDir": "..//dist/out-tsc",
-    "outDir": "../src/main/resources/ui",
+    "outDir": "../shop_service/src/main/resources/ui",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,

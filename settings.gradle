@@ -1,0 +1,3 @@
+include 'config_server'
+include 'shop_service'
+include 'uereka_gateway_service'

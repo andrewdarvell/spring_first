@@ -1,0 +1,10 @@
+server:
+  port: 8083
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+
+spring:
+  application:
+    name: ui

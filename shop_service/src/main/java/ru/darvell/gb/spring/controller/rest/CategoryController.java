@@ -15,7 +15,6 @@ import static ru.darvell.gb.spring.util.ShopConstants.REST_URL_V1;
 @RestController("restCategoryController")
 @RequestMapping(REST_URL_V1 + CATEGORY_URL)
 @RequiredArgsConstructor
-@CrossOrigin
 public class CategoryController {
 
     private final ShopService shopService;

@@ -13,7 +13,6 @@ import java.util.List;
 import static ru.darvell.gb.spring.util.ShopConstants.PRODUCT_URL;
 import static ru.darvell.gb.spring.util.ShopConstants.REST_URL_V1;
 
-@CrossOrigin
 @RestController("restProductController")
 @RequestMapping(REST_URL_V1 + PRODUCT_URL)
 @RequiredArgsConstructor

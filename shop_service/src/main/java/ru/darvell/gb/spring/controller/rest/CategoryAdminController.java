@@ -10,7 +10,6 @@ import static ru.darvell.gb.spring.util.ShopConstants.*;
 @RestController
 @RequestMapping(REST_URL_V1 + ADMIN_URL + CATEGORY_URL)
 @RequiredArgsConstructor
-@CrossOrigin
 public class CategoryAdminController {
 
     private final ShopService shopService;

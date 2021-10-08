@@ -1,3 +1,6 @@
 include 'config_server'
 include 'shop_service'
-include 'uereka_gateway_service'
+include 'uereka_service'
+include 'gateway_service'
+include 'ui_service'
+

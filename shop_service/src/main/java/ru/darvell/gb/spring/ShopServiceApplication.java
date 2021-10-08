@@ -11,13 +11,12 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableAspectJAutoProxy
 @Slf4j
 @EnableEurekaClient
-public class Application {
+public class ShopServiceApplication {
 
     public static void main(String[] args) {
         Flyway flyway = Flyway.configure()
                 .dataSource("jdbc:postgresql://localhost:5432/simple_app", "postgres", "postgres").load();
         flyway.migrate();
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(ShopServiceApplication.class, args);
     }
 }
-///data/images/product/photo_2020-08-24_18-27-41.jpg

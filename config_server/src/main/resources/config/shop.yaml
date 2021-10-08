@@ -9,15 +9,17 @@ spring:
     properties:
       hibernate:
         format-sql: true
+  application:
+    name: shop
 server:
-  port: 8080
+  port: 8082
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
-  instance:
-    appname: shop
-    hostname: http://localhost:8080/
-ribbon:
-  eureka:
-    enabled: true
+#  instance:
+#    appname: shop
+#    hostname: http://localhost:8080/
+#ribbon:
+#  eureka:
+#    enabled: true

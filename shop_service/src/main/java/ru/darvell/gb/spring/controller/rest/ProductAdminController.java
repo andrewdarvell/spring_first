@@ -9,7 +9,6 @@ import ru.darvell.gb.spring.service.ShopService;
 
 import static ru.darvell.gb.spring.util.ShopConstants.*;
 
-@CrossOrigin
 @RequestMapping(REST_URL_V1 + ADMIN_URL + PRODUCT_URL)
 @RequiredArgsConstructor
 @RestController

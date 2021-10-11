@@ -1,9 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {Product} from '../../../model/user-shop';
 import {environment} from '../../../../environments/environment';
-import {Select} from "@ngxs/store";
+import {Select, Store} from "@ngxs/store";
 import {UserState} from "../../../store/states/user.state";
 import {Observable} from "rxjs";
+import {AddUserRole} from "../../../store/actions/user.actions";
+import {AddProductToCart} from "../../../store/actions/cart.actions";
 
 @Component({
   selector: "app-all-products",
@@ -11,6 +13,9 @@ import {Observable} from "rxjs";
   styleUrls: ["products.component.scss"]
 })
 export class ProductsAllComponent {
+
+  constructor(private store: Store) {
+  }
 
   @Select(UserState.hasAdminRole) hasAdminRole$: Observable<boolean> | undefined;
 
@@ -28,6 +33,13 @@ export class ProductsAllComponent {
     if (id) {
       const product = this.products.find(p => p.id === id);
       this.onEditAction.emit(product);
+    }
+  }
+
+  addToCart(id: number | undefined) {
+    const product = this.products.find(p => p.id === id);
+    if (product) {
+      this.store.dispatch(new AddProductToCart(product))
     }
   }
 

@@ -1,0 +1,25 @@
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8090/eureka/
+    fetch-registry: true
+  instance:
+    appname: config
+ribbon:
+  eureka:
+    enabled: true
+server:
+  port: 8881
+spring:
+  application:
+    name: config
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+      discovery:
+        enabled: true

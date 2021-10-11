@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HeaderComponent} from "./components/header/header.component";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MyOwnCustomMaterialModule} from "./material.module";
@@ -19,31 +19,37 @@ import {ProductEditorComponent} from './components/admin/product/product-editor.
 import {NgxsModule} from "@ngxs/store";
 import {environment} from "../environments/environment";
 import {UserState} from "./store/states/user.state";
+import {CartState} from "./store/states/cart.state";
+import {CartComponent} from "./components/cart/cart.component";
+import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    CatalogComponent,
-    ProductsAllComponent,
-    FiltersComponent,
-    CategoryEditorComponent,
-    AuthComponent,
-    ProductEditorComponent
-  ],
-  imports: [
-    NgxsModule.forRoot([UserState], {
-      developmentMode: !environment.production
-    }),
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MyOwnCustomMaterialModule,
-    ReactiveFormsModule,
-    HttpClientModule
-  ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true}],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        CatalogComponent,
+        ProductsAllComponent,
+        FiltersComponent,
+        CategoryEditorComponent,
+        AuthComponent,
+        ProductEditorComponent,
+        CartComponent
+    ],
+    imports: [
+        NgxsModule.forRoot([UserState, CartState], {
+            developmentMode: !environment.production
+        }),
+        NgxsStoragePluginModule.forRoot({key: 'cart_items'}),
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MyOwnCustomMaterialModule,
+        ReactiveFormsModule,
+        HttpClientModule
+    ],
+    providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true}],
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

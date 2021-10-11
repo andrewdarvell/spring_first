@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {CategoryFlat, FilterProductRequest, ProductListResponse} from '../model/user-shop';
+import {CategoryFlat, CostsResponse, FilterProductRequest, ProductListResponse} from '../model/user-shop';
 import {environment} from '../../environments/environment';
 import {LoginResponse} from '../model/auth';
 
@@ -34,6 +34,10 @@ export class UserShopService {
 
   public getRoles(): Observable<string[]> {
     return this.http.get<string[]>(`${environment.apiEndpoint}${user_prefix}/roles`);
+  }
+
+  public getActualCosts(productIds: (number | undefined) [] | undefined):Observable<CostsResponse> {
+    return this.http.post<CostsResponse>(`${environment.apiEndpoint}${product_prefix}/costs`, productIds);
   }
 
 }

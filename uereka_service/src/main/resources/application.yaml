@@ -1,0 +1,12 @@
+server:
+  port: 8090
+eureka:
+  dashboard:
+    path: /eureka-dash
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://localhost:8090/eureka
+  server:
+    enableSelfPreservation: true

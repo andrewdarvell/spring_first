@@ -40,3 +40,7 @@ export interface CategoryFlat {
   title?: string;
   parentCategoryId?: number;
 }
+
+export interface CostsResponse{
+  costs : any;
+}

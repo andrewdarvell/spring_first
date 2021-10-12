@@ -16,11 +16,10 @@ import ru.darvell.gb.spring.exception.ShopEntityNotFoundException;
 import ru.darvell.gb.spring.exception.ShopException;
 import ru.darvell.gb.spring.service.CategoryService;
 import ru.darvell.gb.spring.service.ProductService;
-import ru.darvell.gb.spring.service.ShopService;
+import ru.darvell.gb.spring.service.primary.ShopService;
+import ru.darvell.gb.spring.util.EntityValidator;
 import ru.darvell.gb.spring.util.FileUtils;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +33,7 @@ public class ShopServiceImpl implements ShopService {
 
     private final ProductService productService;
     private final CategoryService categoryService;
-    private final Validator validator;
+    private final EntityValidator validator;
 
     @Override
     public ProductDTO saveOrUpdateProduct(ProductDTO productDTO) throws ShopException {
@@ -43,7 +42,7 @@ public class ShopServiceImpl implements ShopService {
                 .orElseThrow(() -> new ShopEntityNotFoundException("Категория не найдена"));
 
         product.setCategory(category);
-        checkShopEntity(product);
+        validator.checkShopEntity(product);
 
         return new ProductDTO(productService.saveOrUpdate(product));
     }
@@ -140,7 +139,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public Category saveOrUpdateCategoryWithoutParent(CategoryDTO categoryDTO) throws ShopException {
         Category category = new Category(categoryDTO);
-        checkShopEntity(category);
+        validator.checkShopEntity(category);
         return categoryService.saveOrUpdate(new Category(categoryDTO));
     }
 
@@ -167,7 +166,7 @@ public class ShopServiceImpl implements ShopService {
         }
         Category category = new Category(categoryDTO);
         category.setParentCategory(parentCategory);
-        checkShopEntity(category);
+        validator.checkShopEntity(category);
         return categoryService.saveOrUpdate(category);
     }
 
@@ -209,13 +208,6 @@ public class ShopServiceImpl implements ShopService {
         return productRestDTO;
     }
 
-    private <T> void checkShopEntity(T t) throws ShopException {
-        String errorsString = validator.validate(t).stream()
-                .map(ConstraintViolation::getMessage)
-                .collect(Collectors.joining("\n"));
-        if (!errorsString.isEmpty()) {
-            throw new ShopException(errorsString);
-        }
-    }
+
 
 }

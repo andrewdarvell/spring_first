@@ -16,7 +16,7 @@ import ru.darvell.gb.spring.domain.dto.ProductDTO;
 import ru.darvell.gb.spring.exception.ShopException;
 import ru.darvell.gb.spring.service.CategoryService;
 import ru.darvell.gb.spring.service.ProductService;
-import ru.darvell.gb.spring.service.ShopService;
+import ru.darvell.gb.spring.service.primary.ShopService;
 import ru.darvell.gb.spring.util.FileUtils;
 
 import javax.validation.Validator;

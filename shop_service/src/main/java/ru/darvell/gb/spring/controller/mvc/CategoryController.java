@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
 import ru.darvell.gb.spring.exception.ShopException;
-import ru.darvell.gb.spring.service.ShopService;
+import ru.darvell.gb.spring.service.primary.ShopService;
 
 
 @Controller

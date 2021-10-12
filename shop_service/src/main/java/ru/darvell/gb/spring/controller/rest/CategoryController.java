@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
 import ru.darvell.gb.spring.domain.dto.CategoryWithChildsDTO;
-import ru.darvell.gb.spring.service.ShopService;
+import ru.darvell.gb.spring.service.primary.ShopService;
 
 
 import java.util.List;

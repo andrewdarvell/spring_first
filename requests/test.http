@@ -84,7 +84,7 @@ DELETE http://localhost:8080/api/v1/category/9
 
 
 ###
-GET http://localhost:8080/api/v1/category
+GET http://localhost:8080/shop/api/v1/category
 
 
 ###
@@ -97,7 +97,7 @@ login=user&password=1
 ###
 #SOAP
 
-GET http://localhost:8080/ws/categories.wsdl
+GET http://localhost:8080/shop/ws/categories.wsdl
 
 ###
 
@@ -131,3 +131,21 @@ Content-Type: text/xml; charset=utf-8
 
 ###
 OPTIONS http://localhost:8080/shop/api/v1/category
+
+
+
+###
+POST http://localhost:8080/shop/api/v1/grade/review
+Content-Type: application/json
+x-auth-token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIzIiwiZXhwIjoxNjM0OTI0MzA2fQ.SAuyktIMyy2I3h3kqWypzqdYkw0F1YgjLoSeh0VS6Nbukbiy4rSZ54Jch9A_65yYjlnayLeHwnIx4i_W95DqKQ
+
+{
+  "productId": "34",
+  "pluses": "Много плюсов",
+  "minuses": "Много минусов"
+
+}
+
+
+###
+GET http://localhost:8080/shop/api/v1/grade/review/by_product/34

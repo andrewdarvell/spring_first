@@ -14,7 +14,7 @@ import ru.darvell.gb.spring.domain.Category;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
-import ru.darvell.gb.spring.service.ShopService;
+import ru.darvell.gb.spring.service.primary.ShopService;
 
 import java.math.BigDecimal;
 import java.util.Collections;

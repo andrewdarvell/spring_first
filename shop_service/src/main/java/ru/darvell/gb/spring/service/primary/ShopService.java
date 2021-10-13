@@ -1,4 +1,4 @@
-package ru.darvell.gb.spring.service;
+package ru.darvell.gb.spring.service.primary;
 
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;

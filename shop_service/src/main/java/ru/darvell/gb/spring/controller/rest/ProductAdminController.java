@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.darvell.gb.spring.domain.dto.ProductRestDTO;
-import ru.darvell.gb.spring.service.ShopService;
+import ru.darvell.gb.spring.service.primary.ShopService;
 
 import static ru.darvell.gb.spring.util.ShopConstants.*;
 

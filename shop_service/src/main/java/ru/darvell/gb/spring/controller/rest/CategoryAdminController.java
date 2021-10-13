@@ -3,7 +3,7 @@ package ru.darvell.gb.spring.controller.rest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.darvell.gb.spring.domain.dto.CategoryDTO;
-import ru.darvell.gb.spring.service.ShopService;
+import ru.darvell.gb.spring.service.primary.ShopService;
 
 import static ru.darvell.gb.spring.util.ShopConstants.*;
 

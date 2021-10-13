@@ -11,7 +11,7 @@ import ru.darvell.gb.spring.domain.FilterProductRequest;
 import ru.darvell.gb.spring.domain.dto.ProductDTO;
 import ru.darvell.gb.spring.domain.dto.ProductRestDTO;
 import ru.darvell.gb.spring.exception.ShopException;
-import ru.darvell.gb.spring.service.ShopService;
+import ru.darvell.gb.spring.service.primary.ShopService;
 
 import java.util.List;
 import java.util.stream.Collectors;

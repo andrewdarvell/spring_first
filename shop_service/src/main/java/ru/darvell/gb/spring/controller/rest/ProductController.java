@@ -3,7 +3,7 @@ package ru.darvell.gb.spring.controller.rest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-import ru.darvell.gb.spring.domain.FilterProductRequest;
+import ru.darvell.gb.spring.domain.nonpersist.FilterProductRequest;
 import ru.darvell.gb.spring.domain.dto.ProductRestDTO;
 import ru.darvell.gb.spring.domain.dto.ProductsCostDTO;
 import ru.darvell.gb.spring.service.primary.ShopService;

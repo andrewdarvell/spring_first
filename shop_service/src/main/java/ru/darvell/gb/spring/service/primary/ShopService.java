@@ -3,7 +3,7 @@ package ru.darvell.gb.spring.service.primary;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 import ru.darvell.gb.spring.domain.Category;
-import ru.darvell.gb.spring.domain.FilterProductRequest;
+import ru.darvell.gb.spring.domain.nonpersist.FilterProductRequest;
 import ru.darvell.gb.spring.domain.dto.*;
 import ru.darvell.gb.spring.exception.ShopEntityNotFoundException;
 import ru.darvell.gb.spring.exception.ShopException;

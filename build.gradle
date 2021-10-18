@@ -80,6 +80,7 @@ project(":shop_service") {
 
         implementation 'org.postgresql:postgresql:42.2.23'
         testImplementation 'org.mockito:mockito-inline:3.11.2'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
         implementation 'org.springframework.boot:spring-boot-starter-security'
         implementation 'org.springframework.boot:spring-boot-starter-aop'
@@ -97,6 +98,10 @@ project(":shop_service") {
 
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
 

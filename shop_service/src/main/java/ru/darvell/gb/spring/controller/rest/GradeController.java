@@ -17,12 +17,12 @@ public class GradeController {
     private final GradeService gradeService;
 
     @GetMapping("/review/by_product/{productId}")
-    public List<ReviewDTO> retAllReviewByProduct(@PathVariable(name = "productId") Long productId){
+    public List<ReviewDTO> getAllReviewByProduct(@PathVariable(name = "productId") Long productId){
         return gradeService.getAllReviewByProduct(productId);
     }
 
     @GetMapping("/review/by_user/{userId}")
-    public List<ReviewDTO> retAllReviewByUser(@PathVariable(name = "userId") Long userId){
+    public List<ReviewDTO> getAllReviewByUser(@PathVariable(name = "userId") Long userId){
         return gradeService.getAllReviewByUser(userId);
     }
 

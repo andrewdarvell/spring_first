@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import ru.darvell.gb.spring.domain.Category;
-import ru.darvell.gb.spring.domain.FilterProductRequest;
+import ru.darvell.gb.spring.domain.nonpersist.FilterProductRequest;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.repository.ProductRepositoryCustomSelector;
 

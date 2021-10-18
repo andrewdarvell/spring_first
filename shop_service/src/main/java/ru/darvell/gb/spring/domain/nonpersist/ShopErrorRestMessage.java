@@ -1,4 +1,4 @@
-package ru.darvell.gb.spring.domain;
+package ru.darvell.gb.spring.domain.nonpersist;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

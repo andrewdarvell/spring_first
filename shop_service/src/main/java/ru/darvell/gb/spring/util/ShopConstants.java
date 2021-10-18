@@ -6,6 +6,7 @@ public class ShopConstants {
     public static final String PRODUCT_URL = "/product";
     public static final String CATEGORY_URL = "/category";
     public static final String GRADE_URL = "/grade";
+    public static final String ORDER_URL = "/order";
     public static final String USER_URL = "/user";
     public static final String ADMIN_URL = "/admin";
 

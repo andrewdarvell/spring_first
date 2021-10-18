@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.darvell.gb.spring.annotation.ExecutionTimeLogger;
 import ru.darvell.gb.spring.annotation.MethodRunLogger;
 import ru.darvell.gb.spring.domain.Category;
-import ru.darvell.gb.spring.domain.FilterProductRequest;
+import ru.darvell.gb.spring.domain.nonpersist.FilterProductRequest;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.domain.dto.*;
 import ru.darvell.gb.spring.exception.ShopEntityNotFoundException;

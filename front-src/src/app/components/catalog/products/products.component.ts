@@ -1,10 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {Product} from '../../../model/user-shop';
 import {environment} from '../../../../environments/environment';
 import {Select, Store} from "@ngxs/store";
 import {UserState} from "../../../store/states/user.state";
 import {Observable} from "rxjs";
-import {AddUserRole} from "../../../store/actions/user.actions";
 import {AddProductToCart} from "../../../store/actions/cart.actions";
 
 @Component({

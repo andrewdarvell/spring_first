@@ -72,6 +72,9 @@ MIT
 @ngxs/store
 MIT
 
+ngxs-reset-plugin
+MIT
+
 rxjs
 Apache-2.0
                                Apache License

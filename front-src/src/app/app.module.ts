@@ -22,34 +22,36 @@ import {UserState} from "./store/states/user.state";
 import {CartState} from "./store/states/cart.state";
 import {CartComponent} from "./components/cart/cart.component";
 import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
+import {NgxsResetPluginModule} from 'ngxs-reset-plugin';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HeaderComponent,
-        CatalogComponent,
-        ProductsAllComponent,
-        FiltersComponent,
-        CategoryEditorComponent,
-        AuthComponent,
-        ProductEditorComponent,
-        CartComponent
-    ],
-    imports: [
-        NgxsModule.forRoot([UserState, CartState], {
-            developmentMode: !environment.production
-        }),
-        NgxsStoragePluginModule.forRoot({key: 'cart_items'}),
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MyOwnCustomMaterialModule,
-        ReactiveFormsModule,
-        HttpClientModule
-    ],
-    providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true}],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    CatalogComponent,
+    ProductsAllComponent,
+    FiltersComponent,
+    CategoryEditorComponent,
+    AuthComponent,
+    ProductEditorComponent,
+    CartComponent
+  ],
+  imports: [
+    NgxsModule.forRoot([UserState, CartState], {
+      developmentMode: !environment.production
+    }),
+    NgxsResetPluginModule.forRoot(),
+    NgxsStoragePluginModule.forRoot({key: 'cart_items'}),
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MyOwnCustomMaterialModule,
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true}],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

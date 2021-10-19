@@ -9,3 +9,8 @@ export class UpdateCost {
     static readonly type = '[CartItems] update_cost';
     constructor(public payload: CostsResponse) {}
 }
+
+export class DeleteProduct {
+  static readonly type = '[CartItems] delete_item';
+  constructor(public payload: number) {}
+}

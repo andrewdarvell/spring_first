@@ -3,7 +3,6 @@ package ru.darvell.gb.spring.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.domain.ShopOrder;
 import ru.darvell.gb.spring.domain.ShopOrderItem;
 import ru.darvell.gb.spring.domain.ShopUser;
@@ -12,7 +11,6 @@ import ru.darvell.gb.spring.domain.dto.ShopOrderFullDTO;
 import ru.darvell.gb.spring.domain.dto.ShopOrderItemDTO;
 import ru.darvell.gb.spring.domain.dto.ShopOrderSimpleDTO;
 import ru.darvell.gb.spring.exception.ActionNeedAuthException;
-import ru.darvell.gb.spring.exception.ShopEntityNotFoundException;
 import ru.darvell.gb.spring.service.ProductService;
 import ru.darvell.gb.spring.service.ShopOrderItemService;
 import ru.darvell.gb.spring.service.ShopOrderService;
@@ -21,7 +19,9 @@ import ru.darvell.gb.spring.service.primary.OrderService;
 import ru.darvell.gb.spring.util.EntityValidator;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +51,13 @@ public class OrderServiceImpl implements OrderService {
 
         log.info("new order {}", shopOrder);
         return new ShopOrderSimpleDTO(shopOrder);
+    }
+
+    @Override
+    public List<ShopOrderFullDTO> getOrders() {
+        ShopUser user = userSecurityService.getCurrentUser()
+                .orElseThrow(ActionNeedAuthException::new);
+        return shopOrderService.getOrdersByUser(user).stream().map(ShopOrderFullDTO::new).collect(Collectors.toList());
     }
 
     private void addOrderItems(final ShopOrder shopOrder, Set<ShopOrderItemDTO> itemsDTO) {

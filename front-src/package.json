@@ -23,6 +23,7 @@
     "@ngxs/logger-plugin": "^3.7.2-dev.master-bfe989b",
     "@ngxs/storage-plugin": "^3.7.2",
     "@ngxs/store": "^3.7.2-dev.master-bfe989b",
+    "ngxs-reset-plugin": "^1.4.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

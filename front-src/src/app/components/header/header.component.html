@@ -13,6 +13,7 @@
   </span>
 
   <button mat-button routerLink="/app/cart">Корзина</button>
-  <button mat-button routerLink="/app/auth">LogIn</button>
+  <button *ngIf="!(hasAnyRole$ | async)" mat-raised-button routerLink="/app/auth" color="accent">Войти</button>
+  <button *ngIf="hasAnyRole$ | async" mat-button (click)="logOut()" color="accent">Выйти</button>
 </mat-toolbar>
 

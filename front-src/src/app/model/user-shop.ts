@@ -44,3 +44,15 @@ export interface CategoryFlat {
 export interface CostsResponse{
   costs : any;
 }
+
+
+export interface Order {
+  deliveryAddress: string,
+  comment: string,
+  shopOrderItems: OrderItem[]
+}
+
+export interface OrderItem {
+  productId: number,
+  count: number
+}

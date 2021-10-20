@@ -1,3 +1,14 @@
 table {
   width: 100%;
 }
+
+.cart-and-order-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.order-action-box {
+  min-width: 200px;
+  margin-left: 20px;
+  min-height: 200px;
+}

@@ -1,13 +1,13 @@
 package ru.darvell.gb.spring.controller.rest;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.darvell.gb.spring.domain.dto.NewOrderDTO;
-import ru.darvell.gb.spring.domain.dto.ShopOrderFullDTO;
 import ru.darvell.gb.spring.domain.dto.ShopOrderSimpleDTO;
+import ru.darvell.gb.spring.domain.nonpersist.FilterOrderRequest;
 import ru.darvell.gb.spring.service.primary.OrderService;
 
-import java.util.List;
 
 import static ru.darvell.gb.spring.util.ShopConstants.*;
 
@@ -23,9 +23,9 @@ public class OrderController {
         return orderService.addOrder(dto);
     }
 
-    @GetMapping
-    @RequestMapping("")
-    public List<ShopOrderFullDTO> getOrders(){
-        return orderService.getOrders();
+    @PostMapping
+    @RequestMapping("/by_current_user")
+    public Page<ShopOrderSimpleDTO> getOrders(@RequestBody FilterOrderRequest filterOrderRequest){
+        return orderService.getOrders(filterOrderRequest);
     }
 }

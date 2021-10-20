@@ -3,6 +3,9 @@
   <span>
     <button class="all-product-btn" mat-menu-item routerLink="/app/catalog">Все товары</button>
   </span>
+  <span>
+    <button  *ngIf="hasUserRole$ | async" class="all-product-btn" mat-menu-item routerLink="/app/orders">Мои заказы</button>
+  </span>
   <span class="toolbar_spacer"></span>
   <span>
     <button *ngIf="hasAdminRole$ | async" mat-raised-button color="accent" [matMenuTriggerFor]="menu">Админка</button>

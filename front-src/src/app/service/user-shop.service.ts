@@ -1,7 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {CategoryFlat, CostsResponse, FilterProductRequest, Order, ProductListResponse} from '../model/user-shop';
+import {
+  CategoryFlat,
+  CostsResponse,
+  FilterOrderRequest,
+  FilterProductRequest,
+  Order, OrderListResponse,
+  ProductListResponse
+} from '../model/user-shop';
 import {environment} from '../../environments/environment';
 import {LoginResponse} from '../model/auth';
 
@@ -43,6 +50,10 @@ export class UserShopService {
 
   public addOrder(order: Order):Observable<Order>{
     return this.http.post<Order>(`${environment.apiEndpoint}${order_prefix}`, order);
+  }
+
+  public getOrdersByCurrUser(request: FilterOrderRequest): Observable<OrderListResponse> {
+    return this.http.post<OrderListResponse>(`${environment.apiEndpoint}${order_prefix}/by_current_user`, request);
   }
 
 }

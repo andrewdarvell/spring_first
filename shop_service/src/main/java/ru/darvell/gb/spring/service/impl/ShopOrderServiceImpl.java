@@ -1,6 +1,8 @@
 package ru.darvell.gb.spring.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.darvell.gb.spring.domain.ShopOrder;
 import ru.darvell.gb.spring.domain.ShopUser;
@@ -29,5 +31,10 @@ public class ShopOrderServiceImpl implements ShopOrderService {
     @Override
     public ShopOrder saveOrder(ShopOrder shopOrder) {
         return shopOrderRepository.saveAndFlush(shopOrder);
+    }
+
+    @Override
+    public Page<ShopOrder> getOrdersByUser(ShopUser user, Pageable pageable) {
+        return shopOrderRepository.findAllByUser(user, pageable);
     }
 }

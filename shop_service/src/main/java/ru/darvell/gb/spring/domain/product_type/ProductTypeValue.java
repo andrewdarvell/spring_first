@@ -30,6 +30,10 @@ public class ProductTypeValue {
     @NotBlank(message = "Обязательно указания на словарь параметров")
     private ProductTypeDict productTypeDict;
 
+    @ManyToOne
+    @JoinColumn(name = "product_type_id")
+    private ProductType productType;
+
     @Column(name = "value")
     @NotBlank(message = "Значение параметра одязательно")
     private String value;

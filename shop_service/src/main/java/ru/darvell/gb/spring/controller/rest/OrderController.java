@@ -23,8 +23,7 @@ public class OrderController {
         return orderService.addOrder(dto);
     }
 
-    @PostMapping
-    @RequestMapping("/by_current_user")
+    @PostMapping("/by_current_user")
     public Page<ShopOrderSimpleDTO> getOrders(@RequestBody FilterOrderRequest filterOrderRequest){
         return orderService.getOrders(filterOrderRequest);
     }

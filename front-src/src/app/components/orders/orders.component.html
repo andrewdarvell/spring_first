@@ -1,0 +1,17 @@
+<div class="content-width">
+  <div class="paginator mat-elevation-z2">
+    <mat-paginator [length]=orderListResponse.totalElements
+                   [pageSize]=orderListResponse.pageable.pageSize
+                   [pageIndex]=filterRequest.currPage
+                   [pageSizeOptions]="[5, 10]"
+                   (page)=pageEventEmit($event)
+                   aria-label="Select page">
+    </mat-paginator>
+
+
+  </div>
+
+  <mat-list>
+    <mat-list-item *ngFor="let order of orderListResponse.content"> Номер заказа {{order.id}} - {{order.comment}}, статус {{order.status}} </mat-list-item>
+  </mat-list>
+</div>

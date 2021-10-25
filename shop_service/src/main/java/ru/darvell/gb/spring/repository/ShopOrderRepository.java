@@ -1,5 +1,7 @@
 package ru.darvell.gb.spring.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.darvell.gb.spring.domain.ShopOrder;
@@ -11,4 +13,5 @@ import java.util.List;
 public interface ShopOrderRepository extends JpaRepository<ShopOrder, Long> {
 
     List<ShopOrder> findAllByUser(ShopUser user);
+    Page<ShopOrder> findAllByUser(ShopUser user, Pageable pageable);
 }

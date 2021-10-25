@@ -14,6 +14,7 @@ export class HeaderComponent {
 
   @Select(UserState.hasAdminRole) hasAdminRole$: Observable<boolean> | undefined;
   @Select(UserState.hasAnyRole) hasAnyRole$: Observable<boolean> | undefined;
+  @Select(UserState.hasUserRole) hasUserRole$: Observable<boolean> | undefined;
 
   constructor(private store: Store,
               private storeService: StoreService,) {

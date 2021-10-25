@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.darvell.gb.spring.domain.ShopOrder;
 
+import java.sql.Timestamp;
+
 @Getter
 @Setter
 public class ShopOrderSimpleDTO {
@@ -14,6 +16,8 @@ public class ShopOrderSimpleDTO {
     private String deliveryAddress;
     private String deliveryAddressFiasId;
     private String comment;
+    private Timestamp createdAt;
+    private String status;
 
     public ShopOrderSimpleDTO(ShopOrder shopOrder) {
         id = shopOrder.getId();
@@ -22,5 +26,7 @@ public class ShopOrderSimpleDTO {
         deliveryAddress = shopOrder.getDeliveryAddress();
         deliveryAddressFiasId = shopOrder.getDeliveryAddressFiasId();
         comment = shopOrder.getComment();
+        createdAt = shopOrder.getCreatedAt();
+        status = shopOrder.getStatus().getTitle();
     }
 }

@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -37,10 +39,21 @@ public class ShopOrder {
     @Column(name = "comment")
     private String comment;
 
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+
     @OneToMany(mappedBy = "order")
     @ToString.Exclude
     private Set<ShopOrderItem> shopOrderItems;
 
 
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    @NotNull(message = "Статус обязателен")
+    private OrderStatus status;
+
+    @Column(name = "cost")
+    @NotNull(message = "Стоимость заказа обязательна")
+    private BigDecimal cost;
 
 }

@@ -4,6 +4,7 @@ import {CatalogComponent} from "./components/catalog/catalog.component";
 import {CategoryEditorComponent} from './components/admin/category/category-editor.component';
 import {AuthComponent} from './components/users/auth/auth.component';
 import {CartComponent} from "./components/cart/cart.component";
+import {OrdersComponent} from './components/orders/orders.component';
 
 const routes: Routes = [
     {path: '', redirectTo: 'app/catalog', pathMatch: 'full'},
@@ -12,6 +13,7 @@ const routes: Routes = [
             {path: "auth", component: AuthComponent},
             {path: "catalog", component: CatalogComponent},
             {path: "cart", component: CartComponent},
+            {path: "orders", component: OrdersComponent},
             {
                 path: "admin", children: [
                     {path: "category", component: CategoryEditorComponent}

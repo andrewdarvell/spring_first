@@ -8,6 +8,13 @@ export interface FilterProductRequest {
   title?: string;
 }
 
+export interface FilterOrderRequest {
+  currPage?: number;
+  pageSize?: number;
+
+  userId?: string;
+}
+
 export interface Pageable {
   pageNumber: number;
   pageSize: number;
@@ -17,6 +24,15 @@ export interface Pageable {
 
 export interface ProductListResponse {
   content: Product[];
+  pageable: Pageable;
+  totalPages: number;
+  last: boolean;
+  first: boolean;
+  totalElements: number;
+}
+
+export interface OrderListResponse {
+  content: Order[];
   pageable: Pageable;
   totalPages: number;
   last: boolean;
@@ -47,9 +63,11 @@ export interface CostsResponse{
 
 
 export interface Order {
+  id? : number,
   deliveryAddress: string,
   comment: string,
-  shopOrderItems: OrderItem[]
+  shopOrderItems: OrderItem[],
+  status?: string;
 }
 
 export interface OrderItem {

@@ -23,6 +23,7 @@ import {CartState} from "./store/states/cart.state";
 import {CartComponent} from "./components/cart/cart.component";
 import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
 import {NgxsResetPluginModule} from 'ngxs-reset-plugin';
+import {OrdersComponent} from './components/orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {NgxsResetPluginModule} from 'ngxs-reset-plugin';
     CategoryEditorComponent,
     AuthComponent,
     ProductEditorComponent,
-    CartComponent
+    CartComponent,
+    OrdersComponent
   ],
   imports: [
     NgxsModule.forRoot([UserState, CartState], {

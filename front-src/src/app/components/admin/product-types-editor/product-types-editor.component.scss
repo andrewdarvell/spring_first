@@ -1,0 +1,59 @@
+.editor-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  align-content: stretch;
+  margin-top: 10px;
+}
+
+.type-selector{
+  width: 200px;
+}
+
+.type-filter-btn {
+  width: 100%;
+}
+
+.type-list {
+
+}
+
+.editor {
+  width: 100%;
+  margin-left: 20px;
+}
+
+.editor-mini-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  align-content: stretch;
+}
+
+.mini-header-button {
+  min-width: 150px;
+  margin-right: 5px;
+}
+
+.editor-body {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+  margin-top: 20px;
+}
+
+.dict-field {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  align-content: stretch;
+}

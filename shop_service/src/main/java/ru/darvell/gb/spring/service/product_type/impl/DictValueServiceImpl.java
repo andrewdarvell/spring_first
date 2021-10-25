@@ -6,6 +6,7 @@ import ru.darvell.gb.spring.domain.product_type.DictValueType;
 import ru.darvell.gb.spring.repository.product_type.DictValueTypeRepository;
 import ru.darvell.gb.spring.service.product_type.DictValueService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +18,11 @@ public class DictValueServiceImpl implements DictValueService {
     @Override
     public Optional<DictValueType> getById(long id) {
         return dictValueTypeRepository.findById(id);
+    }
+
+    @Override
+    public List<DictValueType> getAll() {
+        return dictValueTypeRepository.findAll();
     }
 
     @Override

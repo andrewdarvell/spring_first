@@ -1,0 +1,49 @@
+<div class="content-width editor-container">
+  <div class="type-selector">
+    <mat-form-field appearance="outline">
+      <mat-label>Фильтр по названию</mat-label>
+      <input matInput placeholder="Тип продукта">
+    </mat-form-field>
+    <button class="type-filter-btn" mat-raised-button (click)="doFilter()">Фильтр</button>
+    <div class="type-list">
+      <mat-selection-list>
+        <mat-list-item *ngFor="let type of productTypes">
+          <button class="type-filter-btn" mat-button (click)="choseType(type.id)">{{type.title}}</button>
+        </mat-list-item>
+      </mat-selection-list>
+    </div>
+  </div>
+  <div class="editor">
+    <div class="editor-mini-header">
+      <button class="mini-header-button" mat-raised-button color="accent" (click)="openDialog()">Новый тип</button>
+      <button *ngIf="activeTypeId !== -1" class="mini-header-button" mat-raised-button (click)="addNewDict()">Добавить параметр</button>
+      <button *ngIf="activeTypeId !== -1" class="mini-header-button" mat-raised-button (click)="choseType(activeTypeId)">Отмена</button>
+      <button *ngIf="activeTypeId !== -1" color="primary" class="mini-header-button" mat-raised-button (click)="saveType()">Сохранить</button>
+    </div>
+
+    <div class="editor-body">
+      <form [formGroup]="productDictGroup">
+        <div formArrayName="dictsOnEdit">
+          <div *ngFor="let dict of dictsOnEdit.controls; let i=index">
+            <div [formGroupName]="i" class="dict-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Название параметра</mat-label>
+                <input matInput type="text" formControlName="title" placeholder="Параметр"/>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-select formControlName="dictValueTypeId">
+                  <mat-label>Тип параметра</mat-label>
+                  <mat-option *ngFor="let dictType of dictValueTypes" [value]="dictType.id">
+                    {{dictType.title}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

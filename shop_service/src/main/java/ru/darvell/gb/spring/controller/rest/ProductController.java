@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.darvell.gb.spring.domain.nonpersist.FilterProductRequest;
 import ru.darvell.gb.spring.domain.dto.ProductRestDTO;
 import ru.darvell.gb.spring.domain.dto.ProductsCostDTO;
+import ru.darvell.gb.spring.domain.product_type.dto.ProductTypeValueDTO;
+import ru.darvell.gb.spring.service.primary.ProductInfoService;
 import ru.darvell.gb.spring.service.primary.ShopService;
 
 import java.util.List;
@@ -19,10 +21,16 @@ import static ru.darvell.gb.spring.util.ShopConstants.REST_URL_V1;
 public class ProductController {
 
     private final ShopService shopService;
+    private final ProductInfoService productInfoService;
 
     @GetMapping("/{productId}")
     public ProductRestDTO getProduct(@PathVariable(name = "productId") Long productId) {
         return shopService.getProductByIdForRest(productId);
+    }
+
+    @GetMapping("/{productId}/dict")
+    public List<ProductTypeValueDTO> getProductDict(@PathVariable(name = "productId") Long productId) {
+        return productInfoService.getAllInfoValuesByProduct(productId);
     }
 
     @PostMapping("/list")

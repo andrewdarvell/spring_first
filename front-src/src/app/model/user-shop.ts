@@ -57,13 +57,13 @@ export interface CategoryFlat {
   parentCategoryId?: number;
 }
 
-export interface CostsResponse{
-  costs : any;
+export interface CostsResponse {
+  costs: any;
 }
 
 
 export interface Order {
-  id? : number,
+  id?: number,
   deliveryAddress: string,
   comment: string,
   shopOrderItems: OrderItem[],
@@ -74,3 +74,22 @@ export interface OrderItem {
   productId: number,
   count: number
 }
+
+
+export interface ProductType {
+  id: number,
+  title: string,
+}
+
+export interface DictValueType {
+  id: number,
+  title: string,
+}
+
+export interface ProductTypeDict {
+  id?: number;
+  title: string;
+  sortOrder: number;
+  dictValueTypeId: number;
+}
+

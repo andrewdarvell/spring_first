@@ -27,13 +27,14 @@ import {MatTreeModule} from "@angular/material/tree";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
-    imports: [MatSelectModule, MatPaginatorModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatMenuModule, MatTreeModule,ScrollingModule,
+    imports: [MatDialogModule, MatSelectModule, MatPaginatorModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatMenuModule, MatTreeModule,ScrollingModule,
         MatInputModule, MatToolbarModule, MatSidenavModule, MatListModule, MatTableModule, MatSnackBarModule,
         MatCheckboxModule, MatDividerModule, MatProgressSpinnerModule, MatRadioModule, MatExpansionModule, MatStepperModule,
         MatIconModule, MatTabsModule, MatAutocompleteModule, MatSliderModule, MatTooltipModule, DragDropModule, TextFieldModule],
-    exports: [MatSelectModule, MatPaginatorModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatMenuModule, MatTreeModule,ScrollingModule,
+    exports: [MatDialogModule, MatSelectModule, MatPaginatorModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatMenuModule, MatTreeModule,ScrollingModule,
         MatInputModule, MatToolbarModule, MatSidenavModule, MatListModule, MatTableModule, MatSnackBarModule,
         MatCheckboxModule, MatDividerModule, MatProgressSpinnerModule, MatRadioModule, MatExpansionModule, MatStepperModule,
         MatIconModule, MatTabsModule, MatAutocompleteModule, MatSliderModule, MatTooltipModule, DragDropModule, TextFieldModule]

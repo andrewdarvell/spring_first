@@ -1,15 +1,18 @@
 package ru.darvell.gb.spring.domain.product_type;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "product_type_dict")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductTypeDict {
 
     @Id
@@ -26,10 +29,12 @@ public class ProductTypeDict {
 
     @ManyToOne
     @JoinColumn(name = "product_type_id")
+    @NotNull(message = "Тип продукта обязателен")
     private ProductType productType;
 
     @ManyToOne
     @JoinColumn(name = "dict_value_type_id")
+    @NotNull(message = "Тип значения обязателен")
     private DictValueType dictValueType;
 
 }

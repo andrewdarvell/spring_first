@@ -11,4 +11,5 @@ public interface ProductTypeValueService {
     Optional<ProductTypeValue> getById(long id);
     ProductTypeValue saveAndFlush(ProductTypeValue productTypeValue);
     List<ProductTypeValue> getAllByProduct(Product product);
+
 }

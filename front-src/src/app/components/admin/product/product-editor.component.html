@@ -37,7 +37,6 @@
       <button mat-button color="accent" (click)="cancel()">Отменить</button>
     </div>
     <div class="image-editor-container">
-      <!--      <img src="{{getProductImageLink(product.imageLink || '')}}">-->
       <div *ngIf="isEditMode()">
         <input class="form-control" type="file" (change)="onChange($event)">
         <button mat-button color="accent" (click)="uploadImage()">Обновить изображение</button>

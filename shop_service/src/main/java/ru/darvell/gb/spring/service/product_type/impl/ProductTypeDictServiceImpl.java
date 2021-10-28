@@ -1,17 +1,18 @@
 package ru.darvell.gb.spring.service.product_type.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import ru.darvell.gb.spring.domain.product_type.DictValueType;
 import ru.darvell.gb.spring.domain.product_type.ProductType;
 import ru.darvell.gb.spring.domain.product_type.ProductTypeDict;
 import ru.darvell.gb.spring.repository.product_type.ProductTypeDictRepository;
 import ru.darvell.gb.spring.service.product_type.ProductTypeDictService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Service
 @RequiredArgsConstructor
 public class ProductTypeDictServiceImpl implements ProductTypeDictService {
 
@@ -25,6 +26,12 @@ public class ProductTypeDictServiceImpl implements ProductTypeDictService {
     @Override
     public ProductTypeDict saveAndFlush(ProductTypeDict productTypeDict) {
         return productTypeDictRepository.saveAndFlush(productTypeDict);
+    }
+
+    @Override
+    @Transactional
+    public List<ProductTypeDict> saveAndFlushBulk(List<ProductTypeDict> productTypeDicts) {
+        return productTypeDictRepository.saveAll(productTypeDicts);
     }
 
     @Override

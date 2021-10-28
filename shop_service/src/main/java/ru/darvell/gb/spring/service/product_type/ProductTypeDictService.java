@@ -11,6 +11,7 @@ public interface ProductTypeDictService {
 
     Optional<ProductTypeDict> getById(long id);
     ProductTypeDict saveAndFlush(ProductTypeDict productTypeDict);
+    List<ProductTypeDict> saveAndFlushBulk(List<ProductTypeDict> productTypeDicts);
     List<ProductTypeDict> getAllByProductType(ProductType productType);
     List<ProductTypeDict> getAllByDictValueType(DictValueType dictValueType);
 

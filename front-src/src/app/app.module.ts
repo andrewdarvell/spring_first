@@ -10,7 +10,7 @@ import {MyOwnCustomMaterialModule} from "./material.module";
 import {CatalogComponent} from "./components/catalog/catalog.component";
 import {ProductsAllComponent} from "./components/catalog/products/products.component";
 import {FiltersComponent} from "./components/catalog/filters/filters.component";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {CategoryEditorComponent} from './components/admin/category/category-editor.component';
 import {AuthComponent} from './components/users/auth/auth.component';
@@ -24,6 +24,11 @@ import {CartComponent} from "./components/cart/cart.component";
 import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
 import {NgxsResetPluginModule} from 'ngxs-reset-plugin';
 import {OrdersComponent} from './components/orders/orders.component';
+import {
+  NewTypeDialog,
+  ProductTypesEditorComponent
+} from './components/admin/product-types-editor/product-types-editor.component';
+import {FullProductEditorComponent} from './components/admin/full-product/full-product-editor.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +41,10 @@ import {OrdersComponent} from './components/orders/orders.component';
     AuthComponent,
     ProductEditorComponent,
     CartComponent,
-    OrdersComponent
+    OrdersComponent,
+    ProductTypesEditorComponent,
+    NewTypeDialog,
+    FullProductEditorComponent
   ],
   imports: [
     NgxsModule.forRoot([UserState, CartState], {
@@ -50,7 +58,8 @@ import {OrdersComponent} from './components/orders/orders.component';
     MatToolbarModule,
     MyOwnCustomMaterialModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true}],
   bootstrap: [AppComponent]

@@ -1,7 +1,6 @@
 package ru.darvell.gb.spring.domain.product_type;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,6 +9,9 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "product_type")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductType {
 
     @Id

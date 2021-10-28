@@ -149,7 +149,6 @@ x-auth-token: eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIzIiwiZXhwIjoxNjM0OTI0MzA2fQ.SAuykt
 
 
 ####
-
 GET http://localhost:8080/shop/api/v1/grade/review/by_product/34
 
 

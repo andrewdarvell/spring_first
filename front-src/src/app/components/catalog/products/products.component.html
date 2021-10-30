@@ -12,6 +12,7 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary" type="submit" (click)="addToCart(product.id)">В корзину</button>
+      <button mat-button color="accent" routerLink="/app/product/{{product.id}}">Подробнее</button>
       <button mat-raised-button color="accent"  *ngIf="hasAdminRole$ | async"  (click)="onEdit(product.id)">Редактировать</button>
       <button mat-raised-button color="accent"  *ngIf="hasAdminRole$ | async"  routerLink="/app/admin/product_values/{{product.id}}">Параметры</button>
     </mat-card-actions>

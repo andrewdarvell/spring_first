@@ -23,6 +23,7 @@ import ru.darvell.gb.spring.util.EntityValidator;
 import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -113,14 +114,19 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     public void addInfoToProduct(long productId, List<ProductTypeValueDTO> infoList) {
         final Product product = productService.findById(productId).orElseThrow(() -> new ShopEntityNotFoundException("Продукт не найден"));
         final List<ProductTypeDict> dictToCheckValues = productTypeDictService.getAllByProductType(product.getProductType());
+        final List<ProductTypeValue> existingValues = productTypeValueService.getAllByProduct(product);
+
         infoList.stream().filter(i -> i.getValue() != null && !i.getValue().isBlank()).forEach(i -> {
 
-            ProductTypeValue value = productTypeValueService.getById(i.getId()).orElse(new ProductTypeValue());
-            if (value.getProductType() == null) {
+            ProductTypeValue value = existingValues.stream().filter(v -> Objects.equals(v.getId(), i.getId())).findFirst().orElse(new ProductTypeValue());
+            if (value.getId() == null) {
+                if (existingValues.stream().anyMatch(v -> Objects.equals(v.getProductTypeDict().getId(), i.getDictId()))) {
+                    throw new ShopException("Добавление нового значание при имеющемся такого же типа словаря");
+                }
                 value.setProductTypeDict(productTypeDictService.getById(i.getDictId()).orElseThrow(() -> new ShopEntityNotFoundException("Тип значения не найден в словаре")));
             }
             if (!dictToCheckValues.remove(value.getProductTypeDict())) {
-                throw new ShopException("Слишком много значений");
+                throw new ShopException("Слишком много значений одного типа словаря");
             }
             value.setProduct(product);
             value.setValue(i.getValue());

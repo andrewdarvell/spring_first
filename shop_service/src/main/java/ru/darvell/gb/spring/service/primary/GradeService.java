@@ -8,5 +8,5 @@ public interface GradeService {
 
     List<ReviewDTO> getAllReviewByProduct(long productId);
     List<ReviewDTO> getAllReviewByUser(long userId);
-    ReviewDTO addReview(ReviewDTO dto);
+    ReviewDTO addReview(long productId, ReviewDTO dto);
 }

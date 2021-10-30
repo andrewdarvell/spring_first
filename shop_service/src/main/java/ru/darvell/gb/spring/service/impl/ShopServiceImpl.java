@@ -17,6 +17,7 @@ import ru.darvell.gb.spring.exception.ShopException;
 import ru.darvell.gb.spring.service.CategoryService;
 import ru.darvell.gb.spring.service.ProductService;
 import ru.darvell.gb.spring.service.primary.ShopService;
+import ru.darvell.gb.spring.service.product_type.ProductTypeService;
 import ru.darvell.gb.spring.util.EntityValidator;
 import ru.darvell.gb.spring.util.FileUtils;
 
@@ -34,10 +35,14 @@ public class ShopServiceImpl implements ShopService {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final EntityValidator validator;
+    private final ProductTypeService productTypeService;
 
     @Override
     public ProductDTO saveOrUpdateProduct(ProductDTO productDTO) throws ShopException {
         Product product = new Product(productDTO);
+        product.setProductType(
+                productTypeService.getById(productDTO.getTypeId()).orElseThrow(() -> new ShopEntityNotFoundException("Тип продукта не найден"))
+        );
         Category category = categoryService.findById(productDTO.getCategoryId())
                 .orElseThrow(() -> new ShopEntityNotFoundException("Категория не найдена"));
 
@@ -207,7 +212,6 @@ public class ShopServiceImpl implements ShopService {
         }
         return productRestDTO;
     }
-
 
 
 }

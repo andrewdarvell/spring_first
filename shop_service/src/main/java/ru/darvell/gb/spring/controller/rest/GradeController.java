@@ -26,8 +26,9 @@ public class GradeController {
         return gradeService.getAllReviewByUser(userId);
     }
 
-    @PostMapping("/review")
-    public ReviewDTO addReview(@RequestBody ReviewDTO reviewDTO){
-        return gradeService.addReview(reviewDTO);
+    @PostMapping("/review/{productId}")
+    public ReviewDTO addReview(@PathVariable(name = "productId") Long productId,
+                               @RequestBody ReviewDTO reviewDTO){
+        return gradeService.addReview(productId, reviewDTO);
     }
 }

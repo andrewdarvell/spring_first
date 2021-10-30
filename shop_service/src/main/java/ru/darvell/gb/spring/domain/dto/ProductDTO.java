@@ -17,12 +17,16 @@ public class ProductDTO {
     private Long categoryId;
     private String categoryName;
     private String imageLink;
+    private Long typeId;
+    private String typeName;
 
     public ProductDTO(Product that) {
         id = that.getId();
         title = that.getTitle();
         cost = that.getCost();
         imageLink = that.getImageLink();
+        typeId = that.getProductType().getId();
+        typeName = that.getProductType().getTitle();
         if (that.getCategory() != null) {
             categoryId = that.getCategory().getId();
             categoryName = that.getCategory().getTitle();
@@ -36,5 +40,7 @@ public class ProductDTO {
         imageLink = that.getImageLink();
         categoryId = that.getCategoryId();
         categoryName = that.getCategoryName();
+        typeId = that.getTypeId();
+        typeName = that.getTypeName();
     }
 }

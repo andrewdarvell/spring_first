@@ -1,0 +1,64 @@
+<div class="content-width">
+  <mat-tab-group>
+    <mat-tab label="Информация">
+      <table class="info-table">
+        <tr>
+          <td>Название</td>
+          <td>{{product?.title}}</td>
+        </tr>
+        <tr>
+          <td>Стоимость</td>
+          <td>{{product?.cost}}</td>
+        </tr>
+        <tr *ngFor="let value of values">
+          <td>{{value.title}}</td>
+          <td>{{value.value}}</td>
+        </tr>
+      </table>
+    </mat-tab>
+    <mat-tab label="Отзывы">
+
+      <form [formGroup]="ratingFormGroup" (ngSubmit)="sendRating()">
+
+        <mat-card *ngIf="hasUserRole$ | async">
+          <mat-card-title>Оставить отзыв</mat-card-title>
+          <mat-card-content>
+            <div class="form-fields">
+              <mat-form-field appearance="outline">
+                <mat-label>Плюсы</mat-label>
+                <textarea matInput formControlName="pluses"></textarea>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Минусы</mat-label>
+                <textarea matInput formControlName="minuses"></textarea>
+              </mat-form-field>
+              <div>
+                <span>Оценка: </span>
+                <mat-slider formControlName="rating" thumbLabel min="1" max="5" step="1" value="0"></mat-slider>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit">Отправить</button>
+          </mat-card-actions>
+        </mat-card>
+
+      </form>
+
+      <mat-card *ngFor="let review of reviews">
+        <mat-card-title>{{review.userName}}</mat-card-title>
+        <mat-card-subtitle>
+          Оценка: {{review.rating}}
+        </mat-card-subtitle>
+        <mat-card-content>
+          Плюсы: {{review.pluses}}
+          <br>
+          Минусы: {{review.minuses}}
+        </mat-card-content>
+      </mat-card>
+
+    </mat-tab>
+  </mat-tab-group>
+
+</div>

@@ -54,10 +54,7 @@ public class ProductInfoAdminController {
         return productInfoService.updateProductTypeDict(productTypeId, productTypeDictDTO);
     }
 
-    @GetMapping(value = "/by_product/{productId}")
-    public List<ProductTypeValueDTO> getAllInfoByProduct(@PathVariable(name = "productId") long productId) {
-        return productInfoService.getAllInfoByProductWithEmpty(productId);
-    }
+
 
     @PostMapping(value = "/by_product/{productId}")
     public ResponseEntity<Void> addInfoToProduct(@PathVariable(name = "productId") long productId,

@@ -7,6 +7,7 @@ import {CartComponent} from "./components/cart/cart.component";
 import {OrdersComponent} from './components/orders/orders.component';
 import {ProductTypesEditorComponent} from './components/admin/product-types-editor/product-types-editor.component';
 import {ProductValuesEditorComponent} from './components/admin/full-product/product-values-editor.component';
+import {ProductCardComponent} from './components/product_card/card/product-card.component';
 
 const routes: Routes = [
     {path: '', redirectTo: 'app/catalog', pathMatch: 'full'},
@@ -16,6 +17,7 @@ const routes: Routes = [
             {path: "catalog", component: CatalogComponent},
             {path: "cart", component: CartComponent},
             {path: "orders", component: OrdersComponent},
+            {path: "product/:productId", component: ProductCardComponent},
             {
                 path: "admin", children: [
                     {path: "category", component: CategoryEditorComponent},

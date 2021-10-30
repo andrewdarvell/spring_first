@@ -10,6 +10,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import ru.darvell.gb.spring.component.MyAuthenticationEntryPoint;
 import ru.darvell.gb.spring.service.TokenAuthService;
 
+import static ru.darvell.gb.spring.util.ShopConstants.ADMIN_URL;
+import static ru.darvell.gb.spring.util.ShopConstants.REST_URL_V1;
+
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -34,10 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/product/form", "/product/delete").hasAnyRole(ADMIN, MANAGER)
-//                .antMatchers(HttpMethod.POST,"/product").hasAnyRole(ADMIN, MANAGER)
-//                .antMatchers("/category/**").hasAnyRole(ADMIN, MANAGER)
-//                .antMatchers(ADMIN_URL + "/**").hasRole(ADMIN)
+                .antMatchers(REST_URL_V1 + ADMIN_URL + "/**").hasRole(ADMIN)
                 .anyRequest().permitAll();
     }
 

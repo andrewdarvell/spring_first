@@ -13,7 +13,6 @@ import {HttpClient} from '@angular/common/http';
 
 const product_prefix = '/admin/product';
 const category_prefix = '/admin/category';
-const user_prefix = '/admin/user';
 const product_info_prefix = '/admin/info/';
 
 @Injectable({
@@ -76,9 +75,7 @@ export class AdminShopService {
     return this.http.post<ProductType>(`${environment.apiEndpoint}${product_info_prefix}/type`, productType);
   }
 
-  public getAllValues(productId: number): Observable<ProductTypeValue[]> {
-    return this.http.get<ProductTypeValue[]>(`${environment.apiEndpoint}${product_info_prefix}/by_product/${productId}`);
-  }
+
 
   public saveAllValues(productId: number, values: ProductTypeValue[]): Observable<void> {
     return this.http.post<void>(`${environment.apiEndpoint}${product_info_prefix}/by_product/${productId}`, values);

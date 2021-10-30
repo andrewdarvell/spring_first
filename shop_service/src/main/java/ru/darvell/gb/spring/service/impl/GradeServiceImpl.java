@@ -53,10 +53,10 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public ReviewDTO addReview(ReviewDTO dto) {
+    public ReviewDTO addReview(long productId, ReviewDTO dto) {
 
         ShopUser user = userSecurityService.getCurrentUser().orElseThrow(ActionNeedAuthException::new);
-        Product product = productService.findById(dto.getProductId()).orElseThrow(ShopEntityNotFoundException::new);
+        Product product = productService.findById(productId).orElseThrow(ShopEntityNotFoundException::new);
         byte actualRating = dto.getRating();
         if (actualRating < MIN_RATING_COUNT || actualRating > MAX_RATING_COUNT) {
             actualRating = MAX_RATING_COUNT;

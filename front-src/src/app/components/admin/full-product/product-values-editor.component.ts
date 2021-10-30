@@ -1,6 +1,6 @@
 import {Component,  OnInit, } from '@angular/core';
 import {ProductTypeValue,} from '../../../model/user-shop';
-import {FormArray, FormBuilder, Validators,} from '@angular/forms';
+import {FormArray, FormBuilder, } from '@angular/forms';
 import {UserShopService} from '../../../service/user-shop.service';
 import {AdminShopService} from '../../../service/admin-shop.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -35,7 +35,7 @@ export class ProductValuesEditorComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.productId = Number(params.get('productId'));
-      this.adminShopService.getAllValues(this.productId).subscribe(resp => {
+      this.shopService.getAllValues(this.productId).subscribe(resp => {
         this.values = resp;
         this.buildForm();
       });
@@ -51,7 +51,7 @@ export class ProductValuesEditorComponent implements OnInit {
             id: [v.id],
             dictId: [v.dictId],
             title: [v.title],
-            value: [v.value, Validators.required],
+            value: [v.value],
           }
       ));
     });

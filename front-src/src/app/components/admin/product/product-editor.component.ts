@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
-import {CategoryFlat, Product} from '../../../model/user-shop';
+import {CategoryFlat, Product, ProductType} from '../../../model/user-shop';
 import {FormBuilder, Validators} from '@angular/forms';
 import {UserShopService} from '../../../service/user-shop.service';
 import {AdminShopService} from '../../../service/admin-shop.service';
@@ -14,12 +14,14 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class ProductEditorComponent implements OnInit {
 
   categories: CategoryFlat[] = [];
+  types: ProductType[] = [];
 
   productForm = this.fb.group({
     id: [],
     title: ['', Validators.required],
     cost: ['', Validators.required],
     categoryId: ['', Validators.required],
+    typeId: ['', Validators.required],
   })
 
   imageFile: any;
@@ -42,6 +44,7 @@ export class ProductEditorComponent implements OnInit {
     this.productForm.get("title")?.setValue(this.product.title);
     this.productForm.get("cost")?.setValue(this.product.cost);
     this.productForm.get("categoryId")?.setValue(this.product.categoryId);
+    this.productForm.get("typeId")?.setValue(this.product.typeId);
   }
 
   constructor(private fb: FormBuilder,
@@ -52,6 +55,7 @@ export class ProductEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.shopService.getCategoriesFlat().subscribe(resp => this.categories = resp);
+    this.adminShopService.getAllTypes().subscribe(resp => this.types = resp);
   }
 
   saveProduct() {

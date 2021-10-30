@@ -30,8 +30,18 @@
               {{category.title}}
             </mat-option>
           </mat-select>
-
         </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Тип продукта</mat-label>
+          <mat-select formControlName="typeId">
+            <mat-option *ngFor="let type of types" [value]="type.id">
+              {{type.title}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
         <button mat-raised-button color="accent" type="submit" style="margin-bottom: 10px">Сохранить</button>
       </form>
       <button mat-button color="accent" (click)="cancel()">Отменить</button>

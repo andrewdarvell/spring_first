@@ -45,6 +45,8 @@ export interface Product {
   title: string;
   cost: number;
   categoryId: number;
+  typeId: number;
+  typeName?: string;
   categoryName?: string;
   imageLink?: string;
   saveImageLink?: string;
@@ -103,3 +105,11 @@ export interface ProductTypeValue {
   sortOrder: number;
 }
 
+export interface Review {
+  pluses: string;
+  minuses: string;
+  rating: number;
+
+  productId: number;
+  userName: string;
+}

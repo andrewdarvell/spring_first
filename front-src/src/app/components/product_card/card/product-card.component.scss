@@ -1,0 +1,23 @@
+.info-table {
+  width: 100%;
+  font-size: 15pt;
+
+  margin-top: 20px;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-slider {
+  width: 100px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+mat-card {
+  margin-bottom: 10px;
+}

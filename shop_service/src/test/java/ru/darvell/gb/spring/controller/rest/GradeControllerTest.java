@@ -40,11 +40,5 @@ class GradeControllerTest {
         Assertions.assertNotNull(actual);
     }
 
-    @Test
-    void addReview() {
-        ReviewDTO reviewDTO = Mockito.mock(ReviewDTO.class);
-        when(gradeService.addReview(reviewDTO)).thenReturn(reviewDTO);
-        ReviewDTO actual = gradeController.addReview(reviewDTO);
-        Assertions.assertEquals(reviewDTO, actual);
-    }
+
 }

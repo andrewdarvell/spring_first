@@ -7,6 +7,7 @@ import ru.darvell.gb.spring.domain.Product;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "product_type_value")
@@ -22,12 +23,12 @@ public class ProductTypeValue {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    @NotBlank(message = "Продукт обязателен")
+    @NotNull(message = "Продукт обязателен")
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "product_type_dict_id")
-    @NotBlank(message = "Обязательно указания на словарь параметров")
+    @NotNull(message = "Обязательно указания на словарь параметров")
     private ProductTypeDict productTypeDict;
 
     @ManyToOne

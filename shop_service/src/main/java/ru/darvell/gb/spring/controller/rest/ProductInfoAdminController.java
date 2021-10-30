@@ -2,10 +2,12 @@ package ru.darvell.gb.spring.controller.rest;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.darvell.gb.spring.domain.product_type.dto.DictValueTypeDTO;
 import ru.darvell.gb.spring.domain.product_type.dto.ProductTypeDTO;
 import ru.darvell.gb.spring.domain.product_type.dto.ProductTypeDictDTO;
+import ru.darvell.gb.spring.domain.product_type.dto.ProductTypeValueDTO;
 import ru.darvell.gb.spring.service.primary.ProductInfoService;
 
 import java.util.List;
@@ -50,6 +52,18 @@ public class ProductInfoAdminController {
     public List<ProductTypeDictDTO> updateProductTypeDict(@PathVariable(name = "id") long productTypeId,
                                                    @RequestBody List<ProductTypeDictDTO> productTypeDictDTO) {
         return productInfoService.updateProductTypeDict(productTypeId, productTypeDictDTO);
+    }
+
+    @GetMapping(value = "/by_product/{productId}")
+    public List<ProductTypeValueDTO> getAllInfoByProduct(@PathVariable(name = "productId") long productId) {
+        return productInfoService.getAllInfoByProductWithEmpty(productId);
+    }
+
+    @PostMapping(value = "/by_product/{productId}")
+    public ResponseEntity<Void> addInfoToProduct(@PathVariable(name = "productId") long productId,
+                                                 @RequestBody List<ProductTypeValueDTO> infoList) {
+        productInfoService.addInfoToProduct(productId, infoList);
+        return ResponseEntity.ok().build();
     }
 
 

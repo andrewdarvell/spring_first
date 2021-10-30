@@ -1,5 +1,12 @@
 import {Injectable} from '@angular/core';
-import {CategoryFlat, DictValueType, Product, ProductType, ProductTypeDict,} from '../model/user-shop';
+import {
+  CategoryFlat,
+  DictValueType,
+  Product,
+  ProductType,
+  ProductTypeDict,
+  ProductTypeValue,
+} from '../model/user-shop';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
@@ -67,5 +74,13 @@ export class AdminShopService {
 
   public updateProductType(productType: ProductType): Observable<ProductType> {
     return this.http.post<ProductType>(`${environment.apiEndpoint}${product_info_prefix}/type`, productType);
+  }
+
+  public getAllValues(productId: number): Observable<ProductTypeValue[]> {
+    return this.http.get<ProductTypeValue[]>(`${environment.apiEndpoint}${product_info_prefix}/by_product/${productId}`);
+  }
+
+  public saveAllValues(productId: number, values: ProductTypeValue[]): Observable<void> {
+    return this.http.post<void>(`${environment.apiEndpoint}${product_info_prefix}/by_product/${productId}`, values);
   }
 }

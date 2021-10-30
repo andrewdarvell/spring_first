@@ -5,11 +5,13 @@ import org.springframework.stereotype.Service;
 import ru.darvell.gb.spring.domain.Product;
 import ru.darvell.gb.spring.domain.product_type.ProductType;
 import ru.darvell.gb.spring.domain.product_type.ProductTypeDict;
+import ru.darvell.gb.spring.domain.product_type.ProductTypeValue;
 import ru.darvell.gb.spring.domain.product_type.dto.DictValueTypeDTO;
 import ru.darvell.gb.spring.domain.product_type.dto.ProductTypeDTO;
 import ru.darvell.gb.spring.domain.product_type.dto.ProductTypeDictDTO;
 import ru.darvell.gb.spring.domain.product_type.dto.ProductTypeValueDTO;
 import ru.darvell.gb.spring.exception.ShopEntityNotFoundException;
+import ru.darvell.gb.spring.exception.ShopException;
 import ru.darvell.gb.spring.service.ProductService;
 import ru.darvell.gb.spring.service.primary.ProductInfoService;
 import ru.darvell.gb.spring.service.product_type.DictValueService;
@@ -18,6 +20,8 @@ import ru.darvell.gb.spring.service.product_type.ProductTypeService;
 import ru.darvell.gb.spring.service.product_type.ProductTypeValueService;
 import ru.darvell.gb.spring.util.EntityValidator;
 
+import javax.transaction.Transactional;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,5 +93,45 @@ public class ProductInfoServiceImpl implements ProductInfoService {
                 .build()).collect(Collectors.toList())
         );
         return result.stream().map(ProductTypeDictDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductTypeValueDTO> getAllInfoByProductWithEmpty(long productId) {
+        Product product = productService.findById(productId).orElseThrow(() -> new ShopEntityNotFoundException("Продукт не найден"));
+        final List<ProductTypeValueDTO> result = new LinkedList<>(productTypeValueService.getAllByProduct(product).stream().map(ProductTypeValueDTO::new).collect(Collectors.toList()));
+
+        List<ProductTypeDict> dictList = productTypeDictService.getAllByProductType(product.getProductType());
+        result.addAll(
+                dictList.stream().filter(d -> isValuesDontContainsDict(result, d)).map(ProductTypeValueDTO::new).collect(Collectors.toList())
+        );
+
+        return result;
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public void addInfoToProduct(long productId, List<ProductTypeValueDTO> infoList) {
+        final Product product = productService.findById(productId).orElseThrow(() -> new ShopEntityNotFoundException("Продукт не найден"));
+        final List<ProductTypeDict> dictToCheckValues = productTypeDictService.getAllByProductType(product.getProductType());
+        infoList.stream().filter(i -> i.getValue() != null && !i.getValue().isBlank()).forEach(i -> {
+
+            ProductTypeValue value = productTypeValueService.getById(i.getId()).orElse(new ProductTypeValue());
+            if (value.getProductType() == null) {
+                value.setProductTypeDict(productTypeDictService.getById(i.getDictId()).orElseThrow(() -> new ShopEntityNotFoundException("Тип значения не найден в словаре")));
+            }
+            if (!dictToCheckValues.remove(value.getProductTypeDict())) {
+                throw new ShopException("Слишком много значений");
+            }
+            value.setProduct(product);
+            value.setValue(i.getValue());
+            value.setProductType(product.getProductType());
+
+            validator.checkShopEntity(value);
+            productTypeValueService.saveAndFlush(value);
+        });
+    }
+
+    private boolean isValuesDontContainsDict(List<ProductTypeValueDTO> values, ProductTypeDict dict) {
+        return values.stream().noneMatch(v -> v.getDictId().equals(dict.getId()));
     }
 }

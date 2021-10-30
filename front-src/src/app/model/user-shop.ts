@@ -93,3 +93,13 @@ export interface ProductTypeDict {
   dictValueTypeId: number;
 }
 
+export interface ProductTypeValue {
+  id?: number;
+  dictId: number;
+  typeId: number;
+  typeTitle: string;
+  title: string;
+  value: string;
+  sortOrder: number;
+}
+

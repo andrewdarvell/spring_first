@@ -22,4 +22,6 @@ public interface ProductInfoService {
     List<ProductTypeDictDTO> getDictByTypeId(long typeId);
     List<ProductTypeDictDTO> updateProductTypeDict(long typeId, List<ProductTypeDictDTO> productTypeDictDTO);
 
+    List<ProductTypeValueDTO> getAllInfoByProductWithEmpty(long productId);
+    void addInfoToProduct(long productId, List<ProductTypeValueDTO> infoList);
 }

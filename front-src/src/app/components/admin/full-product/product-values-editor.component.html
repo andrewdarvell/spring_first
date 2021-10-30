@@ -1,0 +1,20 @@
+<div class="content-width editor-container">
+
+    <div class="values-container">
+        <form [formGroup]="productValuesGroup" (ngSubmit)="doSave()" autocomplete="off">
+            <div formArrayName="valuesOnEdit">
+                <div *ngFor="let val of valuesOnEdit.controls; let i=index">
+                    <div [formGroupName]="i">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{getValueTitle(i)}}</mat-label>
+
+                            <input matInput type="text" formControlName="value" placeholder="Параметр"/>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <button color="primary" class="mini-header-button" mat-raised-button type="submit">Сохранить</button>
+        </form>
+    </div>
+
+</div>

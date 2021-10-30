@@ -3,6 +3,7 @@ package ru.darvell.gb.spring.domain.product_type.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.darvell.gb.spring.domain.product_type.ProductTypeDict;
 import ru.darvell.gb.spring.domain.product_type.ProductTypeValue;
 
 @Getter
@@ -26,6 +27,15 @@ public class ProductTypeValueDTO {
         title = that.getProductTypeDict().getTitle();
         value = that.getValue();
         sortOrder = that.getProductTypeDict().getSortOrder();
+    }
 
+    public ProductTypeValueDTO(ProductTypeDict dict) {
+        id = -1L;
+        dictId = dict.getId();
+        typeId = dict.getDictValueType().getId();
+        typeTitle = dict.getDictValueType().getTitle();
+        title = dict.getTitle();
+        value = null;
+        sortOrder = dict.getSortOrder();
     }
 }

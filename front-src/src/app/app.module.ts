@@ -28,7 +28,7 @@ import {
   NewTypeDialog,
   ProductTypesEditorComponent
 } from './components/admin/product-types-editor/product-types-editor.component';
-import {FullProductEditorComponent} from './components/admin/full-product/full-product-editor.component';
+import {ProductValuesEditorComponent} from './components/admin/full-product/product-values-editor.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,7 @@ import {FullProductEditorComponent} from './components/admin/full-product/full-p
     OrdersComponent,
     ProductTypesEditorComponent,
     NewTypeDialog,
-    FullProductEditorComponent
+    ProductValuesEditorComponent
   ],
   imports: [
     NgxsModule.forRoot([UserState, CartState], {
